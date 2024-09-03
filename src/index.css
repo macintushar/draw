@@ -13,4 +13,7 @@
   html {
     font-family: "Virgil", system-ui, -apple-system, BlinkMacSystemFont;
   }
+  :root {
+    --radius: 0.5rem;
+  }
 }
