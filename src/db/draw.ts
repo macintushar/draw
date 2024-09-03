@@ -1,5 +1,5 @@
 import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import supabase from ".";
+import { supabase } from "./supabase";
 import { AuthError, PostgrestError } from "@supabase/supabase-js";
 
 export type DBResponse = {

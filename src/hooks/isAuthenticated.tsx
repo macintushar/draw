@@ -1,4 +1,4 @@
-import supabase from "@/db";
+import { supabase } from "@/db/supabase";
 
 export default async function isAuthenticated() {
   const { data, error } = await supabase.auth.getUser();
