@@ -39,12 +39,13 @@ export async function createNewPage(): Promise<DBResponse> {
 
 export async function setDrawData(
   id: string,
-  elements: readonly NonDeletedExcalidrawElement[]
+  elements: readonly NonDeletedExcalidrawElement[],
+  name: string
 ): Promise<DBResponse> {
   const updateTime = new Date().toISOString();
   const { data, error } = await supabase
     .from("draw")
-    .update({ page_elements: { elements }, updated_at: updateTime })
+    .update({ name: name, page_elements: { elements }, updated_at: updateTime })
     .eq("page_id", id)
     .select();
 

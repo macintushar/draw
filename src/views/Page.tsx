@@ -2,7 +2,6 @@ import Loader from "@/components/Loader";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { getDrawData, setDrawData } from "@/db/draw";
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
@@ -19,6 +18,7 @@ type PageProps = {
 export default function Page({ id }: PageProps) {
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
+  const [name, setName] = useState("");
 
   const { theme } = useTheme();
 
@@ -34,6 +34,7 @@ export default function Page({ id }: PageProps) {
         elements: elements,
         appState: { viewBackgroundColor: "transparent" },
       });
+      setName(data.data[0].name);
       toast("Scene updated");
     }
     if (data?.error) {
@@ -45,7 +46,11 @@ export default function Page({ id }: PageProps) {
   async function setSceneData() {
     if (excalidrawAPI) {
       const scene = excalidrawAPI.getSceneElements();
-      const res = await setDrawData(id, scene as NonDeletedExcalidrawElement[]);
+      const res = await setDrawData(
+        id,
+        scene as NonDeletedExcalidrawElement[],
+        name
+      );
       if (res.data) {
         toast("Your page has been saved!");
       }
@@ -71,10 +76,11 @@ export default function Page({ id }: PageProps) {
             excalidrawAPI={(api) => setExcalidrawAPI(api)}
             renderTopRightUI={() => (
               <div className="flex gap-2">
-                <div className="flex flex-col space-y-1 w-32">
-                  <Label>Page Name</Label>
-                  <Input></Input>
-                </div>
+                <Input
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                  className="w-40"
+                />
                 <Button variant="secondary" onClick={setSceneData}>
                   Save
                 </Button>
