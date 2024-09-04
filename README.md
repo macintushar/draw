@@ -7,14 +7,12 @@ Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync y
 - **Excalidraw Integration:** Leverages the functionality of Excalidraw, a popular web-based drawing tool.
 - **Supabase Backend:** Uses Supabase for authentication and storage, ensuring secure access and synchronization of your drawings.
 - **Cross-Platform Sync:** Access your drawings from any device by securely saving them to your Supabase database.
-- **shadcn/ui Components:** Built with accessible and highly customizable components for a responsive and modern user experience.
-- **Bun:** Utilizes Bun for a fast and efficient development experience.
 
 ### Acknowledgments
 
 - [Excalidraw](https://excalidraw.com/) for providing the best open-source drawing tool. This wouldn't be possible without them (literally).
 - [Supabase](https://supabase.com/) for their backend services.
-- [shadcn/ui](https://ui.shadcn.com/) for allowing me to work super fast with the help of their UI components and blocks.
+- [shadcn/ui](https://ui.shadcn.com/) for allowing me to build super fast with the help of their UI components and blocks.
 
 ### Getting Started
 
