@@ -21,7 +21,9 @@ export function timeMessage() {
 
     if (hour > 4 && hour < 12) message = timeMessages.morning;
     if (hour >= 12 && hour < 18) message = timeMessages.afternoon;
-    if (hour > 18 && hour < 5) message = timeMessages.evening;
+    if (hour > 18) message = timeMessages.evening;
+
+    console.log(hour, message);
 
     return message;
   } catch (error) {
