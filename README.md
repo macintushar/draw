@@ -1,51 +1,88 @@
-# React + TypeScript + Vite
+## Draw
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync your drawings seamlessly across different devices. It allows you to use Excalidraw anywhere while keeping your data available everywhere.
 
-Currently, two official plugins are available:
+### Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Excalidraw Integration:** Leverages the functionality of Excalidraw, a popular web-based drawing tool.
+- **Supabase Backend:** Uses Supabase for authentication and storage, ensuring secure access and synchronization of your drawings.
+- **Cross-Platform Sync:** Access your drawings from any device by securely saving them to your Supabase database.
+- **shadcn/ui Components:** Built with accessible and highly customizable components for a responsive and modern user experience.
+- **Bun:** Utilizes Bun for a fast and efficient development experience.
 
-## Expanding the ESLint configuration
+### Acknowledgments
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [Excalidraw](https://excalidraw.com/) for providing the best open-source drawing tool. This wouldn't be possible without them (literally).
+- [Supabase](https://supabase.com/) for their backend services.
+- [shadcn/ui](https://ui.shadcn.com/) for allowing me to work super fast with the help of their UI components and blocks.
+- [Bun](https://bun.sh) for enhancing the development workflow.
 
-- Configure the top-level `parserOptions` property like this:
+### Getting Started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Usage
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- **Sign Up or Log In:** Use the authentication flow provided by Supabase to sign up or log in.
+- **Create and Edit Drawings:** Use the Excalidraw interface to create or edit drawings.
+- **Save Drawings:** Drawings are automatically saved to your Supabase database.
+- **Access Anywhere:** Log in from any device to access and sync your drawings.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Deployment
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
-# draw
+To deploy the app, you can use platforms like Vercel or Netlify.
+We have set up a one-click deploy to Vercel.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/macintushar/draw)
+
+If you'd like to build the app yourself, run:
+
+    bun run build
+
+Deploy to other hosting providers by following their specific deployment instructions.
+
+### Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes. For major changes, please open an issue to discuss what you would like to change.
+
+1.  Fork the repository
+2.  Create your feature branch
+3.  Commit your changes
+4.  Push to the branch
+5.  Open a pull request
+
+### Development
+
+#### Prerequisites
+
+- [Bun](https://bun.sh)
+- [Supabase Account and Project](https://supabase.com/)
+
+#### Installation
+
+Clone the repository:
+
+    git clone https://github.com/macintushar/draw.git
+    cd draw
+
+Install dependencies:
+
+    bun install
+
+Set up your environment variables:
+
+Create a `.env` file in the root directory and add your Supabase credentials:
+
+    cp .env.example .env
+
+Run the development server:
+
+    bun run dev
+
+Your app will be available at <http://localhost:5173>.
+
+### License
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/macintushar/draw/blob/main/LICENCE) file for more details.
+
+### Contact
+
+If you have any questions or suggestions, feel free to reach out!
