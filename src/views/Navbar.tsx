@@ -1,4 +1,4 @@
-import Profile from "@/components/Profile";
+import ProfileDropdown from "@/components/ProfileDropdown";
 import { Link } from "@tanstack/react-router";
 
 export default function Navbar() {
@@ -16,7 +16,7 @@ export default function Navbar() {
         <h1>Home</h1>
       </Link>
       <div className="flex justify-end">
-        <Profile />
+        <ProfileDropdown />
       </div>
     </nav>
   );

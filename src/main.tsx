@@ -5,7 +5,7 @@ import * as Sentry from "@sentry/react";
 
 import "./index.css";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 import { routeTree } from "./routeTree.gen";
 import { RouterProvider, createRouter } from "@tanstack/react-router";

@@ -20,6 +20,9 @@ import { Route as IndexImport } from './routes/index'
 
 const SignupLazyImport = createFileRoute('/signup')()
 const LoginLazyImport = createFileRoute('/login')()
+const AuthenticatedProfileLazyImport = createFileRoute(
+  '/_authenticated/profile',
+)()
 const AuthenticatedPagesLazyImport = createFileRoute('/_authenticated/pages')()
 const AuthenticatedPageIdLazyImport = createFileRoute(
   '/_authenticated/page/$id',
@@ -46,6 +49,13 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AuthenticatedProfileLazyRoute = AuthenticatedProfileLazyImport.update({
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any).lazy(() =>
+  import('./routes/_authenticated/profile.lazy').then((d) => d.Route),
+)
 
 const AuthenticatedPagesLazyRoute = AuthenticatedPagesLazyImport.update({
   path: '/pages',
@@ -100,6 +110,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPagesLazyImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileLazyImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/page/$id': {
       id: '/_authenticated/page/$id'
       path: '/page/$id'
@@ -116,6 +133,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
     AuthenticatedPagesLazyRoute,
+    AuthenticatedProfileLazyRoute,
     AuthenticatedPageIdLazyRoute,
   }),
   LoginLazyRoute,
@@ -143,6 +161,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/pages",
+        "/_authenticated/profile",
         "/_authenticated/page/$id"
       ]
     },
@@ -154,6 +173,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_authenticated/pages": {
       "filePath": "_authenticated/pages.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/profile": {
+      "filePath": "_authenticated/profile.lazy.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/page/$id": {

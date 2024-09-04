@@ -32,3 +32,19 @@ export async function getLocalUser() {
 
   return { data, error };
 }
+
+export async function getUser() {
+  const { data, error } = await supabase.auth.getUser();
+
+  return { data, error };
+}
+
+export async function updateUser(name: string, email: string) {
+  const { data, error } = await supabase.auth.updateUser({
+    email: email,
+    data: {
+      name: name,
+    },
+  });
+  return { data, error };
+}
