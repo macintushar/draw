@@ -8,7 +8,10 @@ export type DBResponse = {
 };
 
 export async function getPages(): Promise<DBResponse> {
-  const { data, error } = await supabase.from("draw").select();
+  const { data, error } = await supabase
+    .from("draw")
+    .select()
+    .order("updated_at", { ascending: false });
 
   return { data, error };
 }
@@ -38,9 +41,10 @@ export async function setDrawData(
   id: string,
   elements: readonly NonDeletedExcalidrawElement[]
 ): Promise<DBResponse> {
+  const updateTime = new Date().toISOString();
   const { data, error } = await supabase
     .from("draw")
-    .update({ page_elements: { elements } })
+    .update({ page_elements: { elements }, updated_at: updateTime })
     .eq("page_id", id)
     .select();
 
