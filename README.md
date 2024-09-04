@@ -2,19 +2,19 @@
 
 Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync your drawings seamlessly across different devices. It allows you to use Excalidraw anywhere while keeping your data available everywhere.
 
-### Features
+## Features
 
 - **Excalidraw Integration:** Leverages the functionality of Excalidraw, a popular web-based drawing tool.
 - **Supabase Backend:** Uses Supabase for authentication and storage, ensuring secure access and synchronization of your drawings.
 - **Cross-Platform Sync:** Access your drawings from any device by securely saving them to your Supabase database.
 
-### Acknowledgments
+## Acknowledgments
 
 - [Excalidraw](https://excalidraw.com/) for providing the best open-source drawing tool. This wouldn't be possible without them (literally).
 - [Supabase](https://supabase.com/) for their backend services.
 - [shadcn/ui](https://ui.shadcn.com/) for allowing me to build super fast with the help of their UI components and blocks.
 
-### Getting Started
+## Getting Started
 
 ### Usage
 
@@ -23,7 +23,7 @@ Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync y
 - **Save Drawings:** Drawings are automatically saved to your Supabase database.
 - **Access Anywhere:** Log in from any device to access and sync your drawings.
 
-### Deployment
+## Deployment
 
 To deploy the app, you can use platforms like Vercel or Netlify.
 We have set up a one-click deploy to Vercel.
@@ -36,7 +36,7 @@ If you'd like to build the app yourself, run:
 
 Deploy to other hosting providers by following their specific deployment instructions.
 
-### Tech Stack / Libraries
+## Tech Stack / Libraries
 
 - Vite (React)
 - Tailwind CSS with shadcn/ui
@@ -48,7 +48,7 @@ Deploy to other hosting providers by following their specific deployment instruc
 
 and many others.
 
-### Contributing
+## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes. For major changes, please open an issue to discuss what you would like to change.
 
@@ -58,14 +58,14 @@ Contributions are welcome! Please fork the repository and create a pull request 
 4.  Push to the branch
 5.  Open a pull request
 
-### Development
+## Development
 
-#### Prerequisites
+### Prerequisites
 
 - [Bun](https://bun.sh)
 - [Supabase Account and Project](https://supabase.com/)
 
-#### Installation
+### Installation
 
 Clone the repository:
 
@@ -88,10 +88,10 @@ Run the development server:
 
 Your app will be available at <http://localhost:5173>.
 
-### License
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/macintushar/draw/blob/main/LICENCE) file for more details.
 
-### Contact
+## Contact
 
 If you have any questions or suggestions, feel free to reach out!
