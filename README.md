@@ -67,6 +67,11 @@ Contributions are welcome! Please fork the repository and create a pull request 
 - [Bun](https://bun.sh)
 - [Supabase Account and Project](https://supabase.com/)
 
+### DB Structure and Setup
+
+This is a visual of the Database Schema on Supabase. Read SCHEMA.md for more detailed information on how to set up Supabase to work with Draw.
+[![DB Schema](https://bzortqhjphsocjbvbxdq.supabase.co/storage/v1/object/public/public-assets/draw/Draw-Readme-DB-Schema.png)]()
+
 ### Installation
 
 Clone the repository:
