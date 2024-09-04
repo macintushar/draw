@@ -11,7 +11,11 @@
     src: url(./assets/fonts/Virgil.woff2) format("woff2");
   }
   html {
-    font-family: "Virgil", system-ui, -apple-system, BlinkMacSystemFont;
+    font-family:
+      "Virgil",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont;
   }
   :root {
     --radius: 0.5rem;

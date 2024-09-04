@@ -15,7 +15,7 @@ export async function getPages(): Promise<DBResponse> {
 
 export async function getDrawData(id: string): Promise<DBResponse> {
   const { data, error } = await supabase
-    .from("countries")
+    .from("draw")
     .select()
     .eq("page_id", id);
 
@@ -36,7 +36,7 @@ export async function createNewPage(): Promise<DBResponse> {
 
 export async function setDrawData(
   id: string,
-  elements: NonDeletedExcalidrawElement[]
+  elements: readonly NonDeletedExcalidrawElement[]
 ): Promise<DBResponse> {
   const { data, error } = await supabase
     .from("draw")
