@@ -23,8 +23,6 @@ export function timeMessage() {
     if (hour >= 12 && hour < 18) message = timeMessages.afternoon;
     if (hour > 18) message = timeMessages.evening;
 
-    console.log(hour, message);
-
     return message;
   } catch (error) {
     console.error(error);
