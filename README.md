@@ -42,6 +42,8 @@ Deploy to other hosting providers by following their specific deployment instruc
 - Tailwind CSS with shadcn/ui
 - Tanstack Query and Router
 - Excalidraw
+- Supabase
+- Sentry
 - Day.js
 - Zod
 - Bun
@@ -78,7 +80,7 @@ Install dependencies:
 
 Set up your environment variables:
 
-Create a `.env` file in the root directory and add your Supabase credentials:
+Create a `.env` file in the root directory and add your Supabase and Sentry credentials:
 
     cp .env.example .env
 
