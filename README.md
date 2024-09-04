@@ -15,7 +15,6 @@ Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync y
 - [Excalidraw](https://excalidraw.com/) for providing the best open-source drawing tool. This wouldn't be possible without them (literally).
 - [Supabase](https://supabase.com/) for their backend services.
 - [shadcn/ui](https://ui.shadcn.com/) for allowing me to work super fast with the help of their UI components and blocks.
-- [Bun](https://bun.sh) for enhancing the development workflow.
 
 ### Getting Started
 
@@ -47,6 +46,7 @@ Deploy to other hosting providers by following their specific deployment instruc
 - Excalidraw
 - Day.js
 - Zod
+- Bun
 
 and many others.
 
