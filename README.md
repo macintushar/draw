@@ -39,6 +39,17 @@ If you'd like to build the app yourself, run:
 
 Deploy to other hosting providers by following their specific deployment instructions.
 
+### Tech Stack / Libraries
+
+- Vite (React)
+- Tailwind CSS with shadcn/ui
+- Tanstack Query and Router
+- Excalidraw
+- Day.js
+- Zod
+
+and many others.
+
 ### Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes. For major changes, please open an issue to discuss what you would like to change.
