@@ -9,7 +9,7 @@ export default function Navbar() {
       </Link>
 
       <Link
-        className="hover:font-bold flex justify-center items-center"
+        className="hover:font-bold flex justify-center items-center text-lg"
         to="/pages"
         activeProps={{ className: "font-bold" }}
       >

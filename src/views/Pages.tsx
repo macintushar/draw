@@ -14,6 +14,8 @@ export default function Pages() {
   const { data, isLoading } = useQuery({
     queryKey: ["pages"],
     queryFn: getPages,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   if (data?.error) {
@@ -43,7 +45,7 @@ export default function Pages() {
 
   return (
     <div className="w-full h-full">
-      <h1 className="text-center text-xl">PAGES</h1>
+      <h1 className="text-center text-2xl font-bold">PAGES</h1>
       <div className="flex w-full justify-end">
         <Button
           variant="outline"
@@ -65,7 +67,7 @@ export default function Pages() {
                 <CardTitle>{page.name}</CardTitle>
               </CardHeader>
               <CardFooter className="text-sm">
-                Last updated on: {dayjs(page.created_at).format("MMM DD, YYYY")}
+                Last updated on: {dayjs(page.updated_at).format("MMM DD, YYYY")}
               </CardFooter>
             </Card>
           ))
