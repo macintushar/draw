@@ -13,15 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-import {
-  Github,
-  Loader2,
-  LogOut,
-  Moon,
-  Sun,
-  SunMoon,
-  User,
-} from "lucide-react";
+import { Github, Loader2, LogOut, Moon, Sun, User } from "lucide-react";
 
 import { useTheme } from "@/components/theme-provider";
 import { logout } from "@/db/auth";
@@ -90,18 +82,14 @@ export default function Profile() {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <div className="mr-2 h-4 w-4 flex items-center">
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 h-4 w-4 " />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 h-4 w-4 " />
+                <Sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 h-4 w-4 " />
+                <Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 h-4 w-4 " />
                 <span className="sr-only">Toggle theme</span>
               </div>
               <span>Theme</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  <SunMoon className="mr-2 h-4 w-4" />
-                  <span>System</span>
-                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("light")}>
                   <Sun className="mr-2 h-4 w-4" />
                   <span>Light</span>
