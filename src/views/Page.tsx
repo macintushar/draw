@@ -1,15 +1,25 @@
+import { useEffect, useState } from "react";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Loader from "@/components/Loader";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getDrawData, setDrawData } from "@/db/draw";
+import { toast } from "sonner";
+
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
+
 import { useQuery } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+
+import { getDrawData, setDrawData } from "@/db/draw";
 
 type PageProps = {
   id: string;
@@ -84,9 +94,25 @@ export default function Page({ id }: PageProps) {
                 <Button variant="secondary" onClick={setSceneData}>
                   Save
                 </Button>
-                <Button variant="secondary" size="icon" onClick={updateScene}>
-                  <RefreshCcw className="h-5 w-5" />
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        onClick={updateScene}
+                      >
+                        <RefreshCcw className="h-5 w-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>
+                        Refreshes the page. This removes any unsaved changes.
+                        Use with caution.
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             )}
             theme={theme === "dark" ? "dark" : "light"}
