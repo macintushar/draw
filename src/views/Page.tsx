@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import {
   Tooltip,
   TooltipContent,
@@ -11,15 +10,14 @@ import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
-
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react";
-
 import { getDrawData, setDrawData } from "@/db/draw";
+import { drawDataStore } from "@/stores/drawDataStore"; // Adjust the import path as needed
+import { queryClient } from "@/main";
 
 type PageProps = {
   id: string;
@@ -29,12 +27,27 @@ export default function Page({ id }: PageProps) {
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
   const [name, setName] = useState("");
-
   const { theme } = useTheme();
 
   const { data, isLoading } = useQuery({
     queryKey: ["page", id],
     queryFn: () => getDrawData(id),
+  });
+
+  const mutation = useMutation({
+    mutationFn: (data: {
+      elements: NonDeletedExcalidrawElement[];
+      name: string;
+    }) => setDrawData(id, data.elements, data.name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["page", id] });
+      toast("Your page has been saved to the server!");
+    },
+    onError: (error: Error) => {
+      toast("An error occurred while saving to the server", {
+        description: error.message,
+      });
+    },
   });
 
   async function updateScene() {
@@ -51,22 +64,21 @@ export default function Page({ id }: PageProps) {
       toast("An error occurred", { description: data.error.message });
     }
   }
-  console.log(theme);
 
   async function setSceneData() {
     if (excalidrawAPI) {
       const scene = excalidrawAPI.getSceneElements();
-      const res = await setDrawData(
-        id,
-        scene as NonDeletedExcalidrawElement[],
-        name
-      );
-      if (res.data) {
-        toast("Your page has been saved!");
-      }
-      if (res.error) {
-        toast("An error occurred", { description: res.error.message });
-      }
+      const updatedAt = new Date().toISOString();
+
+      // Save locally first
+      drawDataStore.getState().setPageData(id, scene, updatedAt, name);
+      toast("Your page has been saved locally!");
+
+      // Then push to API
+      mutation.mutate({
+        elements: scene as NonDeletedExcalidrawElement[],
+        name,
+      });
     }
   }
 
@@ -75,6 +87,19 @@ export default function Page({ id }: PageProps) {
       setTimeout(updateScene, 10);
     }
   }, [isLoading, data, excalidrawAPI]);
+
+  useEffect(() => {
+    // Load data from local storage if available
+    const localData = drawDataStore.getState().getPageData(id);
+    if (localData && excalidrawAPI) {
+      excalidrawAPI.updateScene({
+        elements: localData.elements,
+        appState: { viewBackgroundColor: "transparent" },
+      });
+      setName(localData.name);
+      toast("Loaded data from local storage");
+    }
+  }, [id, excalidrawAPI]);
 
   return (
     <div className="flex flex-col w-full">
