@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { GITHUB_REPO_URL } from "@/constants";
 import isAuthenticated from "@/hooks/isAuthenticated";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -24,10 +25,7 @@ export default function HomePage() {
           <div className="flex flex-row justify-center align-middle items-center">
             <h1 className="text-2xl text-white">
               ⭐ Star us on{" "}
-              <a
-                href="https://github.com/macintushar/draw"
-                className="underline font-semibold"
-              >
+              <a href={GITHUB_REPO_URL} className="underline font-semibold">
                 GitHub
               </a>
             </h1>

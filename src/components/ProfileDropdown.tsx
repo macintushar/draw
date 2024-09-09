@@ -27,6 +27,7 @@ import { toast } from "sonner";
 
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { GITHUB_REPO_URL } from "@/constants";
 
 export default function ProfileDropdown() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -104,11 +105,7 @@ export default function ProfileDropdown() {
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <a
-          href="https://github.com/Use-Just-Apps/draw"
-          rel="noreferrer noopener"
-          target="_blank"
-        >
+        <a href={GITHUB_REPO_URL} rel="noreferrer noopener" target="_blank">
           <ProfileItem Icon={Github} text="GitHub" />
         </a>
         <DropdownMenuSeparator />
