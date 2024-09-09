@@ -69,7 +69,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 ### DB Structure and Setup
 
-This is a visual of the Database Schema on Supabase. Read SCHEMA.md for more detailed information on how to set up Supabase to work with Draw.
+This is a visual of the Database Schema on Supabase. Read [docs/supabase.md](https://github.com/macintushar/draw/blob/main/docs/supabase.md) for more detailed information on how to set up Supabase to work with Draw.
 [![DB Schema](https://bzortqhjphsocjbvbxdq.supabase.co/storage/v1/object/public/public-assets/draw/Draw-Readme-DB-Schema.png)]()
 
 ### Installation
