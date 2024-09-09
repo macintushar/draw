@@ -1,4 +1,4 @@
-## Draw
+[![Draw Logo](https://raw.githubusercontent.com/macintushar/draw/main/public/draw-logo.png)]()
 
 Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync your drawings seamlessly across different devices. It allows you to use Excalidraw anywhere while keeping your data available everywhere.
 
