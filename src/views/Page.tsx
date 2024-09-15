@@ -101,6 +101,10 @@ export default function Page({ id }: PageProps) {
     }
   }, [id, excalidrawAPI]);
 
+  // useEffect(() => {
+  //   setTimeout(setSceneData, 5000);
+  // }, [data, excalidrawAPI]);
+
   return (
     <div className="flex flex-col w-full">
       <div className="h-full w-full">

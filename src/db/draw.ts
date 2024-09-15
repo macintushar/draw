@@ -11,7 +11,8 @@ export async function getPages(): Promise<DBResponse> {
   const { data, error } = await supabase
     .from("draw")
     .select()
-    .order("updated_at", { ascending: false });
+    .order("updated_at", { ascending: false })
+    .eq("is_deleted", false);
 
   return { data, error };
 }
@@ -50,4 +51,13 @@ export async function setDrawData(
     .select();
 
   return { data, error };
+}
+
+export async function deletePage(id: string): Promise<DBResponse> {
+  const { error } = await supabase
+    .from("draw")
+    .update({ is_deleted: true })
+    .eq("page_id", id);
+
+  return { data: null, error };
 }

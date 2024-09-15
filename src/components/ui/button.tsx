@@ -67,7 +67,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {isLoading ? (
-          <div className="flex gap-2">
+          <div className="flex gap-2 cursor-progress">
             <Loader2 className="h-4 w-4 animate-spin" />
             {loadingText}
           </div>
