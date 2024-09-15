@@ -50,7 +50,7 @@ export default function Mermaid() {
   return (
     <div className="w-full h-full flex flex-col">
       <h1 className="text-center text-2xl font-bold">PAGES</h1>
-      <div className="w-full flex flex-row gap-3 h-full">
+      <div className="w-full flex flex-row gap-3 h-full p-1">
         <div className="sm:w-1/3 w-full h-full flex flex-col gap-3 border-2 border-white rounded-xl p-1">
           <Textarea
             onChange={(e) => setMermaidSyntax(e.target.value)}
