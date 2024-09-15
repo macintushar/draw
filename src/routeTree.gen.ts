@@ -24,6 +24,9 @@ const AuthenticatedProfileLazyImport = createFileRoute(
   '/_authenticated/profile',
 )()
 const AuthenticatedPagesLazyImport = createFileRoute('/_authenticated/pages')()
+const AuthenticatedMermaidLazyImport = createFileRoute(
+  '/_authenticated/mermaid',
+)()
 const AuthenticatedPageIdLazyImport = createFileRoute(
   '/_authenticated/page/$id',
 )()
@@ -62,6 +65,13 @@ const AuthenticatedPagesLazyRoute = AuthenticatedPagesLazyImport.update({
   getParentRoute: () => AuthenticatedRoute,
 } as any).lazy(() =>
   import('./routes/_authenticated/pages.lazy').then((d) => d.Route),
+)
+
+const AuthenticatedMermaidLazyRoute = AuthenticatedMermaidLazyImport.update({
+  path: '/mermaid',
+  getParentRoute: () => AuthenticatedRoute,
+} as any).lazy(() =>
+  import('./routes/_authenticated/mermaid.lazy').then((d) => d.Route),
 )
 
 const AuthenticatedPageIdLazyRoute = AuthenticatedPageIdLazyImport.update({
@@ -103,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupLazyImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/mermaid': {
+      id: '/_authenticated/mermaid'
+      path: '/mermaid'
+      fullPath: '/mermaid'
+      preLoaderRoute: typeof AuthenticatedMermaidLazyImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/pages': {
       id: '/_authenticated/pages'
       path: '/pages'
@@ -132,6 +149,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
+    AuthenticatedMermaidLazyRoute,
     AuthenticatedPagesLazyRoute,
     AuthenticatedProfileLazyRoute,
     AuthenticatedPageIdLazyRoute,
@@ -160,6 +178,7 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
+        "/_authenticated/mermaid",
         "/_authenticated/pages",
         "/_authenticated/profile",
         "/_authenticated/page/$id"
@@ -170,6 +189,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/signup": {
       "filePath": "signup.lazy.tsx"
+    },
+    "/_authenticated/mermaid": {
+      "filePath": "_authenticated/mermaid.lazy.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/pages": {
       "filePath": "_authenticated/pages.lazy.tsx",

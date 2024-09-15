@@ -1,12 +1,43 @@
 import { useQuery } from "@tanstack/react-query";
-import { createNewPage, getPages } from "../db/draw";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { createNewPage, deletePage, getPages } from "../db/draw";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
 import NoData from "./NoData";
 import { Button } from "@/components/ui/button";
 import dayjs from "dayjs";
 import { useNavigate } from "@tanstack/react-router";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Trash2 } from "lucide-react";
+
+function NewPageOptionDropdown({
+  createPageFn,
+  createMermaidPageFn,
+}: {
+  createPageFn: () => void;
+  createMermaidPageFn: () => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" className="font-semibold">
+          + New Page
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={createPageFn}>Plain Page</DropdownMenuItem>
+        <DropdownMenuItem onClick={createMermaidPageFn}>
+          Mermaid Syntax Diagram
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export default function Pages() {
   const navigate = useNavigate();
@@ -43,32 +74,57 @@ export default function Pages() {
     }
   }
 
+  async function createMermaidPage() {
+    navigate({ to: "/mermaid" });
+  }
+
+  async function handlePageDelete(id: string) {
+    const data = await deletePage(id);
+
+    if (data.data === null) {
+      toast("Successfully deleted the page!");
+    }
+    if (data.error) {
+      toast("An error occured", {
+        description: `Error: ${data.error.message}`,
+      });
+    }
+  }
+
   return (
     <div className="w-full h-full">
       <h1 className="text-center text-2xl font-bold">PAGES</h1>
       <div className="flex w-full justify-end">
-        <Button
-          variant="outline"
-          className="font-semibold"
-          onClick={() => createPage()}
-        >
-          + New Page
-        </Button>
+        <NewPageOptionDropdown
+          createPageFn={createPage}
+          createMermaidPageFn={createMermaidPage}
+        />
       </div>
       <div className="flex flex-wrap gap-3 py-1">
         {data?.data && data.data.length > 0 ? (
           data?.data?.map((page) => (
             <Card
               key={page.page_id}
-              className="w-fit max-w-72 cursor-pointer"
-              onClick={() => goToPage(page.page_id)}
+              className="w-fit max-w-72 cursor-pointer group"
             >
-              <CardHeader>
-                <CardTitle>{page.name}</CardTitle>
-              </CardHeader>
-              <CardFooter className="text-sm">
-                Last updated on: {dayjs(page.updated_at).format("MMM DD, YYYY")}
-              </CardFooter>
+              <div onClick={() => goToPage(page.page_id)}>
+                <CardHeader className="flex flex-row justify-between">
+                  <CardTitle>{page.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="w-full flex flex-col py-2 justify-end text-sm">
+                  <h1>
+                    Last updated on:{" "}
+                    {dayjs(page.updated_at).format("MMM DD, YYYY")}
+                  </h1>
+                </CardContent>
+              </div>
+              <div className="flex w-full items-end justify-end p-2">
+                <Trash2
+                  className="h-4 w-4 invisible group-hover:visible hover:dark:bg-gray-900 hover:bg-gray-100 rounded-lg transition-all	text-gray-600 hover:text-red-500 cursor-pointer"
+                  strokeWidth={3}
+                  onClick={() => handlePageDelete(page.page_id)}
+                />
+              </div>
             </Card>
           ))
         ) : (
