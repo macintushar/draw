@@ -68,7 +68,10 @@ export default function Page({ id }: PageProps) {
   async function setSceneData() {
     if (excalidrawAPI) {
       const scene = excalidrawAPI.getSceneElements();
+      const state = excalidrawAPI.getAppState();
       const updatedAt = new Date().toISOString();
+
+      console.log(state);
 
       // Save locally first
       drawDataStore.getState().setPageData(id, scene, updatedAt, name);
@@ -100,10 +103,6 @@ export default function Page({ id }: PageProps) {
       toast("Loaded data from local storage");
     }
   }, [id, excalidrawAPI]);
-
-  // useEffect(() => {
-  //   setTimeout(setSceneData, 5000);
-  // }, [data, excalidrawAPI]);
 
   return (
     <div className="flex flex-col w-full">
