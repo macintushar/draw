@@ -1,5 +1,14 @@
 [![Draw Logo](https://raw.githubusercontent.com/macintushar/draw/main/public/draw-logo.png)]()
 
+<div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+  <a href="https://codeclimate.com/github/macintushar/draw/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/01b60d9dbd7f8af2d25f/maintainability" />
+  </a>
+  <a href="https://codeclimate.com/github/macintushar/draw/test_coverage">
+    <img src="https://api.codeclimate.com/v1/badges/01b60d9dbd7f8af2d25f/test_coverage" />
+  </a>
+</div>
+
 Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync your drawings seamlessly across different devices. It allows you to use Excalidraw anywhere while keeping your data available everywhere.
 
 ## Features
