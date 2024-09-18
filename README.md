@@ -2,10 +2,10 @@
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
   <a href="https://codeclimate.com/github/macintushar/draw/maintainability">
-    <img src="https://api.codeclimate.com/v1/badges/01b60d9dbd7f8af2d25f/maintainability" />
+    <img src="https://api.codeclimate.com/v1/badges/01b60d9dbd7f8af2d25f/maintainability" alt="Maintainability" />
   </a>
   <a href="https://codeclimate.com/github/macintushar/draw/test_coverage">
-    <img src="https://api.codeclimate.com/v1/badges/01b60d9dbd7f8af2d25f/test_coverage" />
+    <img src="https://api.codeclimate.com/v1/badges/01b60d9dbd7f8af2d25f/test_coverage" alt="Test Coverage" />
   </a>
 </div>
 
