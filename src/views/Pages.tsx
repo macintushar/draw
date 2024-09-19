@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
+import TitleBar from "@/components/TitleBar";
 
 function NewPageOptionDropdown({
   createPageFn,
@@ -93,13 +94,15 @@ export default function Pages() {
 
   return (
     <div className="w-full h-full">
-      <h1 className="text-center text-2xl font-bold">PAGES</h1>
-      <div className="flex w-full justify-end">
-        <NewPageOptionDropdown
-          createPageFn={createPage}
-          createMermaidPageFn={createMermaidPage}
-        />
-      </div>
+      <TitleBar
+        title="PAGES"
+        extra={
+          <NewPageOptionDropdown
+            createPageFn={createPage}
+            createMermaidPageFn={createMermaidPage}
+          />
+        }
+      />
       <div className="flex flex-wrap gap-3 py-1">
         {data?.data && data.data.length > 0 ? (
           data?.data?.map((page) => (

@@ -26,6 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { updateProfileSchema } from "@/lib/schemas";
 import { z } from "zod";
 import { queryClient } from "@/main";
+import TitleBar from "@/components/TitleBar";
 
 export default function Profile() {
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -73,8 +74,8 @@ export default function Profile() {
 
   return (
     <div className="w-full h-full">
-      <h1 className="text-center text-2xl font-bold">PROFILE</h1>
-      <div className="w-full flex items-center justify-center p-4">
+      <TitleBar title="PROFILE" />
+      <div className="w-full flex items-center justify-center">
         <Card className="w-full lg:w-2/3">
           <Form {...form}>
             <form
