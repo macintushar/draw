@@ -53,7 +53,7 @@ export default function HomePage() {
         <div className="flex justify-center items-center h-16 w-full">
           <div className="flex flex-row justify-center align-middle items-center">
             <h1 className="text-lg text-white">
-              Made with ❤️ by{" "}
+              Made by{" "}
               <a
                 href="https://github.com/macintushar"
                 className="underline font-semibold"
