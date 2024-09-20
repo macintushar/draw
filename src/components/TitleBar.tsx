@@ -25,15 +25,15 @@ export default function TitleBar({
   extra,
 }: TitleBarProps) {
   return (
-    <div className="grid grid-cols-3 gap-4 mb-2">
+    <div className="mb-2 grid grid-cols-3 gap-4">
       <div className="col-start-2">
-        <h1 className="text-center text-2xl font-bold">{title}</h1>
+        <h1 className="text-center font-virgil text-2xl font-bold">{title}</h1>
       </div>
       <div className="flex justify-end">
         {isCtaVisible && (
           <Button
             variant="outline"
-            className={cn("font-semibold w-fit", ctaClassName)}
+            className={cn("w-fit font-semibold", ctaClassName)}
             disabled={isCtaDisabled}
             isLoading={isCtaLoading}
             loadingText={ctaLoadingLabel}

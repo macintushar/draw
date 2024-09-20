@@ -73,9 +73,9 @@ export default function Profile() {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <TitleBar title="PROFILE" />
-      <div className="w-full flex items-center justify-center">
+      <div className="flex w-full items-center justify-center">
         <Card className="w-full lg:w-2/3">
           <Form {...form}>
             <form
@@ -127,7 +127,7 @@ export default function Profile() {
                   )}
                 />
               </CardContent>
-              <CardFooter className="border-t px-6 py-4 flex justify-end">
+              <CardFooter className="flex justify-end border-t px-6 py-4">
                 <Button type="submit" isLoading={isSaving}>
                   Save
                 </Button>

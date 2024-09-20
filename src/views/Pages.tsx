@@ -93,7 +93,7 @@ export default function Pages() {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <TitleBar
         title="PAGES"
         extra={
@@ -108,13 +108,13 @@ export default function Pages() {
           data?.data?.map((page) => (
             <Card
               key={page.page_id}
-              className="w-fit max-w-72 cursor-pointer group"
+              className="group w-fit max-w-72 cursor-pointer font-virgil"
             >
               <div onClick={() => goToPage(page.page_id)}>
                 <CardHeader className="flex flex-row justify-between">
                   <CardTitle>{page.name}</CardTitle>
                 </CardHeader>
-                <CardContent className="w-full flex flex-col py-2 justify-end text-sm">
+                <CardContent className="flex w-full flex-col justify-end py-2 text-sm">
                   <h1>
                     Last updated on:{" "}
                     {dayjs(page.updated_at).format("MMM DD, YYYY")}
@@ -123,7 +123,7 @@ export default function Pages() {
               </div>
               <div className="flex w-full items-end justify-end p-2">
                 <Trash2
-                  className="h-4 w-4 invisible group-hover:visible hover:dark:bg-gray-900 hover:bg-gray-100 rounded-lg transition-all	text-gray-600 hover:text-red-500 cursor-pointer"
+                  className="invisible h-4 w-4 cursor-pointer rounded-lg text-gray-600 transition-all hover:bg-gray-100 hover:text-red-500 group-hover:visible hover:dark:bg-gray-900"
                   strokeWidth={3}
                   onClick={() => handlePageDelete(page.page_id)}
                 />

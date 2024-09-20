@@ -67,7 +67,7 @@ export default function ProfileDropdown() {
       <DropdownMenuTrigger asChild>
         <Button size="icon" variant={"outline"} className="rounded-full">
           {profileIsLoading ? (
-            <div className="h-full w-full bg-gray-900 animate-pulse rounded-full" />
+            <div className="h-full w-full animate-pulse rounded-full bg-gray-900" />
           ) : (
             <User className="h-5 w-5" strokeWidth={3} />
           )}
@@ -85,7 +85,7 @@ export default function ProfileDropdown() {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <SunMoon className="h-4 w-4 mr-2" />
+              <SunMoon className="mr-2 h-4 w-4" />
               <span>Theme</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>

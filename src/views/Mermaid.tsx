@@ -6,14 +6,16 @@ import {
   convertToExcalidrawElements,
   Excalidraw,
 } from "@excalidraw/excalidraw";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 import { useTheme } from "@/components/theme-provider";
+import TitleBar from "@/components/TitleBar";
 
 export default function Mermaid() {
   const [mermaidSyntax, setMermaidSyntax] = useState("");
   const [converting, setConverting] = useState(false);
+  const [canSave, setCanSave] = useState(false);
   const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI>();
 
   const { theme } = useTheme();
@@ -33,6 +35,7 @@ export default function Mermaid() {
         });
 
         setConverting(false);
+        setCanSave(true);
       } catch (e) {
         toast("An error occured", {
           description: `Error: ${e}`,
@@ -43,18 +46,33 @@ export default function Mermaid() {
     }
   }
 
-  excalidrawAPI?.updateScene({
-    appState: { viewBackgroundColor: "transparent" },
-  });
+  async function handleSaveAsNewPage() {}
+
+  useEffect(() => {
+    setTimeout(
+      () =>
+        excalidrawAPI?.updateScene({
+          appState: {
+            viewBackgroundColor: "transparent",
+          },
+        }),
+      10,
+    );
+  }, [excalidrawAPI]);
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <h1 className="text-center text-2xl font-bold">PAGES</h1>
-      <div className="w-full flex flex-row gap-3 h-full p-1">
-        <div className="sm:w-1/3 w-full h-full flex flex-col gap-3 border-2 border-white rounded-xl p-1">
+    <div className="flex h-full w-full flex-col p-1">
+      <TitleBar
+        title="MERMAID"
+        ctaLabel="Save As New Page"
+        isCtaVisible
+        isCtaDisabled={!canSave}
+      />
+      <div className="flex h-full w-full flex-row gap-3">
+        <div className="flex h-full w-full flex-col gap-3 rounded-xl border-2 border-white p-1 sm:w-1/3">
           <Textarea
             onChange={(e) => setMermaidSyntax(e.target.value)}
-            className="h-full"
+            className="h-full resize-none"
           />
           <Button
             size="lg"
@@ -67,7 +85,7 @@ export default function Mermaid() {
             Convert to Excalidraw
           </Button>
         </div>
-        <div className="sm:w-2/3 w-full h-full border-2 border-white rounded-xl">
+        <div className="h-full w-full rounded-xl border-2 border-white sm:w-2/3">
           <Excalidraw
             excalidrawAPI={(api) => setExcalidrawAPI(api)}
             theme={theme === "dark" ? "dark" : "light"}

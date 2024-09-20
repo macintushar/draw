@@ -26,12 +26,14 @@ export async function getDrawData(id: string): Promise<DBResponse> {
   return { data, error };
 }
 
-export async function createNewPage(): Promise<DBResponse> {
+export async function createNewPage(
+  elements?: readonly NonDeletedExcalidrawElement[],
+): Promise<DBResponse> {
   const { data: profile, error: profileError } = await supabase.auth.getUser();
   if (profile) {
     const { data, error } = await supabase
       .from("draw")
-      .insert({ user_id: profile.user?.id })
+      .insert({ user_id: profile.user?.id, page_elements: { elements } })
       .select();
     return { data, error };
   }
@@ -41,7 +43,7 @@ export async function createNewPage(): Promise<DBResponse> {
 export async function setDrawData(
   id: string,
   elements: readonly NonDeletedExcalidrawElement[],
-  name: string
+  name: string,
 ): Promise<DBResponse> {
   const updateTime = new Date().toISOString();
   const { data, error } = await supabase

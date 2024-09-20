@@ -57,7 +57,7 @@ export default function SignUp() {
   }
 
   return (
-    <div className="h-full flex justify-center items-center">
+    <div className="flex h-full items-center justify-center">
       <Card className="w-full max-w-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -135,7 +135,7 @@ export default function SignUp() {
               </Button>
               <div className="flex space-x-2">
                 <h1>Already have an account?</h1>
-                <Link className="underline font-bold" to="/login">
+                <Link className="font-bold underline" to="/login">
                   Login
                 </Link>
               </div>
