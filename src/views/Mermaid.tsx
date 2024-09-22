@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 import { useTheme } from "@/components/theme-provider";
 import TitleBar from "@/components/TitleBar";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function Mermaid() {
   const [mermaidSyntax, setMermaidSyntax] = useState("");
@@ -19,6 +20,7 @@ export default function Mermaid() {
   const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI>();
 
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   async function generateExcalidraw() {
     if (mermaidSyntax.length > 0) {
@@ -46,7 +48,9 @@ export default function Mermaid() {
     }
   }
 
-  async function handleSaveAsNewPage() {}
+  async function handleSaveAsNewPage() {
+    navigate({ to: "/pages" });
+  }
 
   useEffect(() => {
     setTimeout(
@@ -65,6 +69,7 @@ export default function Mermaid() {
       <TitleBar
         title="MERMAID"
         ctaLabel="Save As New Page"
+        ctaAction={handleSaveAsNewPage}
         isCtaVisible
         isCtaDisabled={!canSave}
       />
