@@ -1,5 +1,28 @@
 import ProfileDropdown from "@/components/ProfileDropdown";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
+import { LucideIcon } from "lucide-react";
+
+type NavButtonProps = {
+  isActive: boolean;
+  label: string;
+  icon?: LucideIcon;
+};
+
+function NavButton({ isActive, label, icon: Icon }: NavButtonProps) {
+  return (
+    <Button
+      className={cn(
+        "flex h-10 w-full items-center justify-center gap-3 text-sm font-light hover:font-bold",
+        isActive ? "font-bold" : "",
+      )}
+      variant="outline"
+    >
+      {Icon && <Icon />} {label}
+    </Button>
+  );
+}
 
 export default function Navbar() {
   return (
@@ -7,20 +30,16 @@ export default function Navbar() {
       <Link to="/pages" className="flex items-center">
         <h1 className="font-virgil text-3xl font-bold">Draw</h1>
       </Link>
-      <div className="flex flex-row justify-center space-x-3">
-        <Link
-          className="flex items-center justify-center text-lg hover:font-bold"
-          to="/pages"
-          activeProps={{ className: "font-bold" }}
-        >
-          <h1>Home</h1>
+      <div className="font-outfit flex flex-row items-center justify-center space-x-3">
+        <Link to="/pages" className="w-24">
+          {({ isActive }) => {
+            return <NavButton label="Home" isActive={isActive} />;
+          }}
         </Link>
-        <Link
-          className="flex items-center justify-center text-lg hover:font-bold"
-          to="/mermaid"
-          activeProps={{ className: "font-bold" }}
-        >
-          <h1>Mermaid</h1>
+        <Link to="/mermaid" className="w-24">
+          {({ isActive }) => {
+            return <NavButton label="Mermaid" isActive={isActive} />;
+          }}
         </Link>
       </div>
       <div className="flex justify-end">
