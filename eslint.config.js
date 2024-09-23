@@ -5,6 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 import pluginQuery from "@tanstack/eslint-plugin-query";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -27,5 +28,6 @@ export default tseslint.config(
       ],
     },
   },
-  pluginQuery.configs["flat/recommended"]
+  pluginQuery.configs["flat/recommended"],
+  eslintConfigPrettier,
 );

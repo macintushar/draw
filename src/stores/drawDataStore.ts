@@ -16,7 +16,7 @@ type DrawDataStore = {
     page_id: string,
     elements: readonly NonDeletedExcalidrawElement[],
     updatedAt: string,
-    name: string
+    name: string,
   ) => void;
   getPageData: (page_id: string) => DrawData[string] | undefined;
 };
@@ -45,8 +45,8 @@ const drawDataStore = create<DrawDataStore>()(
     }),
     {
       name: "draw-data-store",
-    }
-  )
+    },
+  ),
 );
 
 export { drawDataStore };

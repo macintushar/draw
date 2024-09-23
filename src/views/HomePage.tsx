@@ -19,30 +19,30 @@ export default function HomePage() {
     }
   }
   return (
-    <main className="h-full w-full flex flex-col p-2 bg-gradient-to-r from-gray-900 via-gray-950 to-gray-900">
+    <main className="flex h-full w-full flex-col bg-gradient-to-r from-gray-900 via-gray-950 to-gray-900 p-2 font-virgil">
       <footer>
-        <div className="flex justify-center items-center h-16 w-full">
-          <div className="flex flex-row justify-center align-middle items-center">
+        <div className="flex h-16 w-full items-center justify-center">
+          <div className="flex flex-row items-center justify-center align-middle">
             <h1 className="text-2xl text-white">
               ⭐ Star us on{" "}
-              <a href={GITHUB_REPO_URL} className="underline font-semibold">
+              <a href={GITHUB_REPO_URL} className="font-semibold underline">
                 GitHub
               </a>
             </h1>
           </div>
         </div>
       </footer>
-      <div className="flex justify-center items-center h-full w-full">
-        <div className="sm:w-1/2 w-full flex items-center flex-col gap-y-8 h-fit ">
+      <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-fit w-full flex-col items-center gap-y-8 sm:w-1/2">
           <h1 className="text-6xl font-black">Draw</h1>
-          <h1 className="text-5xl text-center font-medium">
+          <h1 className="text-center text-5xl font-medium">
             The digital drawing tool that enables you to create, edit, and share
             your drawings across all your devices.
           </h1>
           <Button
             isLoading={isLoading}
             loadingText=""
-            className="w-2/3 font-semibold text-lg"
+            className="w-2/3 text-lg font-semibold"
             onClick={() => action(data ? true : false)}
           >
             {data ? "View your pages" : "Sign In"}
@@ -50,13 +50,13 @@ export default function HomePage() {
         </div>
       </div>
       <footer>
-        <div className="flex justify-center items-center h-16 w-full">
-          <div className="flex flex-row justify-center align-middle items-center">
+        <div className="flex h-16 w-full items-center justify-center">
+          <div className="flex flex-row items-center justify-center align-middle">
             <h1 className="text-lg text-white">
               Made by{" "}
               <a
                 href="https://github.com/macintushar"
-                className="underline font-semibold"
+                className="font-semibold underline"
               >
                 Macintushar
               </a>

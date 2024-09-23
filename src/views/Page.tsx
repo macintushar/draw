@@ -105,7 +105,7 @@ export default function Page({ id }: PageProps) {
   }, [id, excalidrawAPI]);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       <div className="h-full w-full">
         {isLoading ? (
           <Loader />

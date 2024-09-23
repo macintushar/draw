@@ -16,7 +16,7 @@ export default function ProfileItem({
     <DropdownMenuItem onClick={onClick}>
       <Icon className="mr-2 h-4 w-4" />
       <span>{text}</span>
-      {isLoading && <Loader2 className="animate-spin h-4 w-4 ml-4" />}
+      {isLoading && <Loader2 className="ml-4 h-4 w-4 animate-spin" />}
     </DropdownMenuItem>
   );
 }
