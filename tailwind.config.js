@@ -12,6 +12,7 @@ export default {
       colors: {},
       fontFamily: {
         virgil: ["Virgil", "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
       },
     },
   },
