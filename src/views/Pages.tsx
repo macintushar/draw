@@ -43,7 +43,11 @@ function NewPageOptionDropdown({
 export default function Pages() {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    refetch: refetchPages,
+  } = useQuery({
     queryKey: ["pages"],
     queryFn: getPages,
     refetchOnMount: true,
@@ -84,6 +88,7 @@ export default function Pages() {
 
     if (data.data === null) {
       toast("Successfully deleted the page!");
+      refetchPages();
     }
     if (data.error) {
       toast("An error occured", {
