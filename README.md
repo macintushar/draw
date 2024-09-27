@@ -17,8 +17,6 @@ Draw is a wrapper around Excalidraw, integrated with Supabase to save and sync y
 ## Acknowledgments
 
 - [Excalidraw](https://excalidraw.com/) for providing the best open-source drawing tool. This wouldn't be possible without them (literally).
-- [Supabase](https://supabase.com/) for their backend services.
-- [shadcn/ui](https://ui.shadcn.com/) for allowing me to build super fast with the help of their UI components and blocks.
 
 ## Getting Started
 
