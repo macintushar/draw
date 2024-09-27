@@ -78,12 +78,14 @@ export default function Mermaid() {
         extra={
           <Tooltip>
             <TooltipTrigger>
+              <a href="https://mermaid.js.org/"  target="_blank">
               <Button size="icon" variant="outline">
                 <Info />
               </Button>
+              </a>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Add to library</p>
+              <p>Click to learn more about Mermaid and mermaid.js.</p>
             </TooltipContent>
           </Tooltip>
         }
