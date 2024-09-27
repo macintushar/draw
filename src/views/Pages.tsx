@@ -113,20 +113,18 @@ export default function Pages() {
           data?.data?.map((page) => (
             <Card
               key={page.page_id}
-              className="group w-fit max-w-72 cursor-pointer font-virgil"
+              className="group w-fit max-w-72 cursor-pointer p-1"
             >
               <div onClick={() => goToPage(page.page_id)}>
-                <CardHeader className="flex flex-row justify-between">
-                  <CardTitle>{page.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex w-full flex-col justify-end py-2 text-sm">
+                <CardContent className="flex w-full flex-col justify-end gap-3 py-2 text-sm">
+                  <CardTitle className="font-virgil">{page.name}</CardTitle>
                   <h1>
                     Last updated on:{" "}
                     {dayjs(page.updated_at).format("MMM DD, YYYY")}
                   </h1>
                 </CardContent>
               </div>
-              <div className="flex w-full items-end justify-end p-2">
+              <div className="flex w-full items-end justify-end p-1">
                 <Trash2
                   className="invisible h-4 w-4 cursor-pointer rounded-lg text-gray-600 transition-all hover:bg-gray-100 hover:text-red-500 group-hover:visible hover:dark:bg-gray-900"
                   strokeWidth={3}

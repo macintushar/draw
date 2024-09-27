@@ -11,14 +11,14 @@
     src: url(./assets/fonts/Virgil.woff2) format("woff2");
   }
   @font-face {
-    font-family: "Outfit";
+    font-family: "Quicksand";
     font-style: normal;
-    font-weight: 100,200,300,400,500,600,700,800,900;
+    font-weight: 300 900;
     font-display: swap;
-    src: url(https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap2) format("woff2");
+    src: url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap);
   }
   html {
-    font-family: "Outfit", sans-serif;
+    font-family: "Quicksand", sans-serif;
   }
   :root {
     --radius: 0.5rem;
