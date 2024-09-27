@@ -24,6 +24,16 @@ function NavButton({ isActive, label, icon: Icon }: NavButtonProps) {
   );
 }
 
+const routes = [
+  {
+    label: "Home",
+    to: "/pages",
+  }, {
+    label: "Mermaid",
+    to: "/mermaid",
+  },
+]
+
 export default function Navbar() {
   return (
     <nav className="grid h-12 w-full grid-cols-3 p-1 px-3">
@@ -31,16 +41,13 @@ export default function Navbar() {
         <h1 className="font-virgil text-3xl font-bold">Draw</h1>
       </Link>
       <div className="font-quicksand flex flex-row items-center justify-center space-x-3">
-        <Link to="/pages" className="w-24">
-          {({ isActive }) => {
-            return <NavButton label="Home" isActive={isActive} />;
-          }}
-        </Link>
-        <Link to="/mermaid" className="w-24">
-          {({ isActive }) => {
-            return <NavButton label="Mermaid" isActive={isActive} />;
-          }}
-        </Link>
+        {routes.map(({ label, to }) => (
+          <Link to={to} key={to} className="w-24">
+            {({ isActive }) => {
+              return <NavButton label={label} isActive={isActive} />;
+            }}
+          </Link>
+        ))}
       </div>
       <div className="flex justify-end">
         <ProfileDropdown />
