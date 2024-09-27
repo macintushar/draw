@@ -15,6 +15,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { Info } from "lucide-react";
+import { createNewPage } from "@/db/draw";
 
 export default function Mermaid() {
   const [mermaidSyntax, setMermaidSyntax] = useState("");
@@ -51,8 +52,24 @@ export default function Mermaid() {
     }
   }
 
+  function goToPage(id: string) {
+    navigate({ to: "/page/$id", params: { id: id } });
+  }
+
   async function handleSaveAsNewPage() {
-    navigate({ to: "/pages" });
+    const elements = excalidrawAPI?.getSceneElements();
+    const data = await createNewPage(elements);
+
+    if (data.data && data.data[0]?.page_id) {
+      goToPage(data.data[0].page_id);
+      toast("Successfully created a new page!");
+    }
+
+    if (data.error) {
+      toast("An error occured", {
+        description: `Error: ${data.error.message}`,
+      });
+    }
   }
 
   useEffect(() => {
@@ -79,9 +96,7 @@ export default function Mermaid() {
           <Tooltip>
             <TooltipTrigger>
               <a href="https://mermaid.js.org/"  target="_blank">
-              <Button size="icon" variant="outline">
-                <Info />
-              </Button>
+                <Info className="h-5 w-5 mr-1" />
               </a>
             </TooltipTrigger>
             <TooltipContent>
