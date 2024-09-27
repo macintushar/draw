@@ -113,11 +113,11 @@ export default function Pages() {
           data?.data?.map((page) => (
             <Card
               key={page.page_id}
-              className="group w-fit max-w-72 cursor-pointer p-1 px-2 pt-2"
+              className="group w-fit max-w-72 cursor-pointer p-1 px-2 pt-2 max-h-28 h-fit"
             >
               <div onClick={() => goToPage(page.page_id)}>
                 <CardContent className="flex w-full flex-col justify-end gap-3 py-2 text-sm">
-                  <CardTitle className="font-virgil">{page.name}</CardTitle>
+                  <CardTitle className="font-virgil line-clamp-1">{page.name}</CardTitle>
                   <h1 className="font-medium">
                     Last updated on:{" "}
                     {dayjs(page.updated_at).format("MMM DD, YYYY")}
