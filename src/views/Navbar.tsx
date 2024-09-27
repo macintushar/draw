@@ -15,7 +15,7 @@ function NavButton({ isActive, label, icon: Icon }: NavButtonProps) {
     <Button
       className={cn(
         "flex h-10 w-full items-center justify-center gap-3 text-sm font-light hover:font-bold",
-        isActive ? "font-bold" : "",
+        isActive ? "font-bold" : "font-medium",
       )}
       variant="outline"
     >

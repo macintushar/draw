@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createNewPage, deletePage, getPages } from "../db/draw";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent,  CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
 import NoData from "./NoData";
@@ -113,18 +113,18 @@ export default function Pages() {
           data?.data?.map((page) => (
             <Card
               key={page.page_id}
-              className="group w-fit max-w-72 cursor-pointer p-1"
+              className="group w-fit max-w-72 cursor-pointer p-1 px-2 pt-2"
             >
               <div onClick={() => goToPage(page.page_id)}>
                 <CardContent className="flex w-full flex-col justify-end gap-3 py-2 text-sm">
                   <CardTitle className="font-virgil">{page.name}</CardTitle>
-                  <h1>
+                  <h1 className="font-medium">
                     Last updated on:{" "}
                     {dayjs(page.updated_at).format("MMM DD, YYYY")}
                   </h1>
                 </CardContent>
               </div>
-              <div className="flex w-full items-end justify-end p-1">
+              <div className="flex w-full items-end justify-end p-0.5">
                 <Trash2
                   className="invisible h-4 w-4 cursor-pointer rounded-lg text-gray-600 transition-all hover:bg-gray-100 hover:text-red-500 group-hover:visible hover:dark:bg-gray-900"
                   strokeWidth={3}
