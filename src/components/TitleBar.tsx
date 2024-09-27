@@ -30,6 +30,7 @@ export default function TitleBar({
         <h1 className="text-center font-virgil text-2xl font-bold">{title}</h1>
       </div>
       <div className="flex justify-end">
+        {extra}
         {isCtaVisible && (
           <Button
             variant="outline"
@@ -42,7 +43,6 @@ export default function TitleBar({
             {ctaLabel}
           </Button>
         )}
-        {extra}
       </div>
     </div>
   );

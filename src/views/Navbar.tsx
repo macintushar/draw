@@ -15,7 +15,7 @@ function NavButton({ isActive, label, icon: Icon }: NavButtonProps) {
     <Button
       className={cn(
         "flex h-10 w-full items-center justify-center gap-3 text-sm font-light hover:font-bold",
-        isActive ? "font-bold" : "",
+        isActive ? "font-bold" : "font-medium",
       )}
       variant="outline"
     >
@@ -30,7 +30,7 @@ export default function Navbar() {
       <Link to="/pages" className="flex items-center">
         <h1 className="font-virgil text-3xl font-bold">Draw</h1>
       </Link>
-      <div className="font-outfit flex flex-row items-center justify-center space-x-3">
+      <div className="font-quicksand flex flex-row items-center justify-center space-x-3">
         <Link to="/pages" className="w-24">
           {({ isActive }) => {
             return <NavButton label="Home" isActive={isActive} />;

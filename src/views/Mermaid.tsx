@@ -12,6 +12,9 @@ import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 import { useTheme } from "@/components/theme-provider";
 import TitleBar from "@/components/TitleBar";
 import { useNavigate } from "@tanstack/react-router";
+import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
+import { TooltipTrigger } from "@radix-ui/react-tooltip";
+import { Info } from "lucide-react";
 
 export default function Mermaid() {
   const [mermaidSyntax, setMermaidSyntax] = useState("");
@@ -72,9 +75,23 @@ export default function Mermaid() {
         ctaAction={handleSaveAsNewPage}
         isCtaVisible
         isCtaDisabled={!canSave}
+        extra={
+          <Tooltip>
+            <TooltipTrigger>
+              <a href="https://mermaid.js.org/"  target="_blank">
+              <Button size="icon" variant="outline">
+                <Info />
+              </Button>
+              </a>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Click to learn more about Mermaid and mermaid.js.</p>
+            </TooltipContent>
+          </Tooltip>
+        }
       />
       <div className="flex h-full w-full flex-row gap-3">
-        <div className="flex h-full w-full flex-col gap-3 rounded-xl border-2 border-white p-1 sm:w-1/3">
+        <div className="flex h-full w-full flex-col gap-1 rounded-xl border-2 border-white p-1 sm:w-1/3">
           <Textarea
             onChange={(e) => setMermaidSyntax(e.target.value)}
             className="h-full resize-none"

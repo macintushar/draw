@@ -69,7 +69,7 @@ export default function ProfileDropdown() {
           {profileIsLoading ? (
             <div className="h-full w-full animate-pulse rounded-full bg-gray-900" />
           ) : (
-            <User className="h-5 w-5" strokeWidth={3} />
+            <User className="h-5 w-5" />
           )}
         </Button>
       </DropdownMenuTrigger>
