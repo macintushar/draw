@@ -28,19 +28,22 @@ const routes = [
   {
     label: "Home",
     to: "/pages",
-  }, {
+  },
+  {
     label: "Mermaid",
     to: "/mermaid",
   },
-]
+];
 
 export default function Navbar() {
   return (
     <nav className="grid h-12 w-full grid-cols-3 p-1 px-3">
-      <Link to="/pages" className="flex items-center">
-        <h1 className="font-virgil text-3xl font-bold">Draw</h1>
-      </Link>
-      <div className="font-quicksand flex flex-row items-center justify-center space-x-3">
+      <div>
+        <Link to="/pages" className="flex w-fit items-center">
+          <h1 className="font-virgil text-3xl font-bold">Draw</h1>
+        </Link>
+      </div>
+      <div className="flex flex-row items-center justify-center space-x-3 font-quicksand">
         {routes.map(({ label, to }) => (
           <Link to={to} key={to} className="w-24">
             {({ isActive }) => {
