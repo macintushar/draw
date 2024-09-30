@@ -14,7 +14,7 @@ import TitleBar from "@/components/TitleBar";
 import { useNavigate } from "@tanstack/react-router";
 import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { Info } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { createNewPage } from "@/db/draw";
 
 export default function Mermaid() {
@@ -92,11 +92,14 @@ export default function Mermaid() {
         ctaAction={handleSaveAsNewPage}
         isCtaVisible
         isCtaDisabled={!canSave}
-        extra={
+        titleExtra={
           <Tooltip>
             <TooltipTrigger>
-              <a href="https://mermaid.js.org/"  target="_blank">
-                <Info className="h-5 w-5 mr-1" />
+              <a href="https://mermaid.js.org/" target="_blank">
+                <div className="flex flex-row items-center gap-2 p-1 text-sm">
+                  Learn more
+                  <ExternalLink className="mr-1 h-4 w-4" />
+                </div>
               </a>
             </TooltipTrigger>
             <TooltipContent>
