@@ -71,8 +71,6 @@ export default function Page({ id }: PageProps) {
       const state = excalidrawAPI.getAppState();
       const updatedAt = new Date().toISOString();
 
-      console.log(state);
-
       // Save locally first
       drawDataStore.getState().setPageData(id, scene, updatedAt, name);
       toast("Your page has been saved locally!");
