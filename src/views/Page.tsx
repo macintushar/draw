@@ -89,6 +89,7 @@ export default function Page({ id }: PageProps) {
     if (!isLoading && data?.data && excalidrawAPI) {
       setTimeout(updateScene, 10);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, data, excalidrawAPI]);
 
   useEffect(() => {

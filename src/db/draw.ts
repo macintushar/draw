@@ -3,6 +3,7 @@ import { supabase } from "./supabase";
 import { AuthError, PostgrestError } from "@supabase/supabase-js";
 
 export type DBResponse = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[] | null;
   error: PostgrestError | AuthError | null;
 };
