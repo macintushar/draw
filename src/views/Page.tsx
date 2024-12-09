@@ -68,7 +68,6 @@ export default function Page({ id }: PageProps) {
   async function setSceneData() {
     if (excalidrawAPI) {
       const scene = excalidrawAPI.getSceneElements();
-      const state = excalidrawAPI.getAppState();
       const updatedAt = new Date().toISOString();
 
       // Save locally first
