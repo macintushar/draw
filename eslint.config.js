@@ -26,6 +26,7 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+      "no-console": ["error", { allow: ["error"] }],
     },
   },
   pluginQuery.configs["flat/recommended"],
