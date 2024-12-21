@@ -9,12 +9,6 @@ git clone https://github.com/macintushar/draw.git
 cd draw
 ```
 
-- Download the production docker-compose.yml file from the following link.
-
-```bash
-wget https://raw.githubusercontent.com/macintushar/draw/main/docker-compose.yml
-```
-
 - Rename the file .env.example to .env and update the environment variables.
 
 ```bash
