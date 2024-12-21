@@ -1,4 +1,4 @@
-FROM oven/bun:latest as build-stage
+FROM oven/bun:1.1.42 as build-stage
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN bun run build
 
-from oven/bun:latest as serve-stage
+from oven/bun:1.1.42 as serve-stage
 
 WORKDIR /app
 
