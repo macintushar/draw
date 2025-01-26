@@ -3,7 +3,7 @@
 ### Structure
 
 The structure of the database is meant to make it super easy and secure to get Draw up and running.
-[![DB Schema](./assets/Draw-Readme-DB-Schema.png)]()
+[![DB Schema](./assets/Draw-Readme-DB-Schema.png)](./assets/Draw-Readme-DB-Schema.png)
 
 ### Instructions
 
