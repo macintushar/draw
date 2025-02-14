@@ -144,7 +144,7 @@ export default function Page({ id }: PageProps) {
             theme={theme === "dark" ? "dark" : "light"}
             autoFocus
           >
-            {isLoading ? <Loader /> : <WelcomeScreen />}
+            <WelcomeScreen />
           </Excalidraw>
         )}
       </div>
