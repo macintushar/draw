@@ -10,7 +10,7 @@ import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Excalidraw } from "@excalidraw/excalidraw";
+import { Excalidraw, WelcomeScreen } from "@excalidraw/excalidraw";
 import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -122,7 +122,7 @@ export default function Page({ id }: PageProps) {
                 </Button>
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger>
+                    <TooltipTrigger asChild>
                       <Button
                         variant="secondary"
                         size="icon"
@@ -143,7 +143,9 @@ export default function Page({ id }: PageProps) {
             )}
             theme={theme === "dark" ? "dark" : "light"}
             autoFocus
-          />
+          >
+            {isLoading ? <Loader /> : <WelcomeScreen />}
+          </Excalidraw>
         )}
       </div>
     </div>

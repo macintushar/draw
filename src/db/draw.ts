@@ -8,11 +8,14 @@ export type DBResponse = {
   error: PostgrestError | AuthError | null;
 };
 
-export async function getPages(): Promise<DBResponse> {
+export const DB_NAME = "draw";
+
+export async function getPages(user_id: string): Promise<DBResponse> {
   const { data, error } = await supabase
-    .from("draw")
+    .from(DB_NAME)
     .select()
     .order("updated_at", { ascending: false })
+    .eq("user_id", user_id)
     .eq("is_deleted", false);
 
   return { data, error };
@@ -20,7 +23,7 @@ export async function getPages(): Promise<DBResponse> {
 
 export async function getDrawData(id: string): Promise<DBResponse> {
   const { data, error } = await supabase
-    .from("draw")
+    .from(DB_NAME)
     .select()
     .eq("page_id", id);
 
@@ -33,7 +36,7 @@ export async function createNewPage(
   const { data: profile, error: profileError } = await supabase.auth.getUser();
   if (profile) {
     const { data, error } = await supabase
-      .from("draw")
+      .from(DB_NAME)
       .insert({ user_id: profile.user?.id, page_elements: { elements } })
       .select();
     return { data, error };
@@ -48,7 +51,7 @@ export async function setDrawData(
 ): Promise<DBResponse> {
   const updateTime = new Date().toISOString();
   const { data, error } = await supabase
-    .from("draw")
+    .from(DB_NAME)
     .update({ name: name, page_elements: { elements }, updated_at: updateTime })
     .eq("page_id", id)
     .select();
@@ -58,7 +61,7 @@ export async function setDrawData(
 
 export async function deletePage(id: string): Promise<DBResponse> {
   const { error } = await supabase
-    .from("draw")
+    .from(DB_NAME)
     .update({ is_deleted: true })
     .eq("page_id", id);
 

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
 import TitleBar from "@/components/TitleBar";
+import { getLocalUser } from "@/db/auth";
 
 function NewPageOptionDropdown({
   createPageFn,
@@ -49,7 +50,17 @@ export default function Pages() {
     refetch: refetchPages,
   } = useQuery({
     queryKey: ["pages"],
-    queryFn: getPages,
+    queryFn: async() => {
+      const user_session = await getLocalUser();
+      if (!user_session.error) {
+        if (!user_session.data.session) {
+          toast.error("Something went wrong!");
+          return { data: null, error: null };
+        }
+        return getPages(user_session?.data.session.user?.id ?? "");
+      };
+      return null;
+    },
     refetchOnMount: true,
     refetchOnWindowFocus: true,
   });
