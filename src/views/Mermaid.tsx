@@ -85,7 +85,7 @@ export default function Mermaid() {
   }, [excalidrawAPI]);
 
   return (
-    <div className="flex h-full w-full flex-col p-1">
+    <div className="flex h-full w-full flex-col p-3">
       <TitleBar
         title="MERMAID"
         ctaLabel="Save As New Page"

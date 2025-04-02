@@ -73,7 +73,7 @@ export default function Profile() {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="h-full w-full">
+    <div className="mx-2 my-3 h-full w-full">
       <TitleBar title="PROFILE" />
       <div className="flex w-full items-center justify-center">
         <Card className="w-full lg:w-2/3">
