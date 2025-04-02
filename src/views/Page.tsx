@@ -55,7 +55,7 @@ export default function Page({ id }: PageProps) {
       const elements = data.data[0].page_elements.elements;
       excalidrawAPI.updateScene({
         elements: elements,
-        appState: { viewBackgroundColor: "transparent" },
+        appState: { theme: theme },
       });
       setName(data.data[0].name);
       toast("Scene updated");
@@ -95,12 +95,12 @@ export default function Page({ id }: PageProps) {
     if (localData && excalidrawAPI) {
       excalidrawAPI.updateScene({
         elements: localData.elements,
-        appState: { viewBackgroundColor: "transparent" },
+        appState: { theme: theme },
       });
       setName(localData.name);
       toast("Loaded data from local storage");
     }
-  }, [id, excalidrawAPI]);
+  }, [id, excalidrawAPI, theme]);
 
   return (
     <div className="flex w-full flex-col">
@@ -110,6 +110,7 @@ export default function Page({ id }: PageProps) {
         ) : (
           <Excalidraw
             excalidrawAPI={(api) => setExcalidrawAPI(api)}
+            initialData={{ appState: { theme: theme } }}
             renderTopRightUI={() => (
               <div className="flex gap-2">
                 <Input
