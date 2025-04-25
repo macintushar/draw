@@ -1,4 +1,4 @@
-import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
+import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/element/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

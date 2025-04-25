@@ -8,7 +8,7 @@ import {
 } from "@excalidraw/excalidraw";
 import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
+import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import { useTheme } from "@/components/theme-provider";
 import TitleBar from "@/components/TitleBar";
 import { useNavigate } from "@tanstack/react-router";

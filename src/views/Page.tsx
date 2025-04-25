@@ -11,13 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Excalidraw, WelcomeScreen } from "@excalidraw/excalidraw";
-import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react";
 import { getDrawData, setDrawData } from "@/db/draw";
 import { drawDataStore } from "@/stores/drawDataStore"; // Adjust the import path as needed
 import { queryClient } from "@/main";
+import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/element/types";
+import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 
 type PageProps = {
   id: string;
