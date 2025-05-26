@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -16,8 +16,7 @@ import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react";
 import { getDrawData, setDrawData } from "@/db/draw";
-import { drawDataStore } from "@/stores/drawDataStore"; // Adjust the import path as needed
-import { queryClient } from "@/main";
+import { drawDataStore } from "@/stores/drawDataStore";
 
 type PageProps = {
   id: string;
@@ -27,6 +26,7 @@ export default function Page({ id }: PageProps) {
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
   const [name, setName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
   const { theme } = useTheme();
 
   const { data, isLoading } = useQuery({
@@ -40,15 +40,17 @@ export default function Page({ id }: PageProps) {
       name: string;
     }) => setDrawData(id, data.elements, data.name),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["page", id] });
-      toast("Your page has been saved to the server!");
+      setIsSaving(false);
     },
     onError: (error: Error) => {
+      setIsSaving(false);
       toast("An error occurred while saving to the server", {
         description: error.message,
       });
     },
   });
+
+  const { mutate } = mutation;
 
   async function updateScene() {
     if (data?.data && excalidrawAPI) {
@@ -58,36 +60,48 @@ export default function Page({ id }: PageProps) {
         appState: { theme: theme },
       });
       setName(data.data[0].name);
-      toast("Scene updated");
     }
     if (data?.error) {
       toast("An error occurred", { description: data.error.message });
     }
   }
 
-  async function setSceneData() {
+  const setSceneData = useCallback(async () => {
     if (excalidrawAPI) {
       const scene = excalidrawAPI.getSceneElements();
       const updatedAt = new Date().toISOString();
 
-      // Save locally first
-      drawDataStore.getState().setPageData(id, scene, updatedAt, name);
-      toast("Your page has been saved locally!");
+      const existingData = drawDataStore.getState().getPageData(id);
 
-      // Then push to API
-      mutation.mutate({
-        elements: scene as NonDeletedExcalidrawElement[],
-        name,
-      });
+      if (JSON.stringify(existingData?.elements) !== JSON.stringify(scene)) {
+        setIsSaving(true);
+        // Save locally first
+        drawDataStore.getState().setPageData(id, scene, updatedAt, name);
+
+        // Then push to API
+        await mutate({
+          elements: scene as NonDeletedExcalidrawElement[],
+          name,
+        });
+        setIsSaving(false);
+      }
     }
-  }
+  }, [excalidrawAPI, id, name, mutate]);
 
   useEffect(() => {
     if (!isLoading && data?.data && excalidrawAPI) {
-      setTimeout(updateScene, 10);
+      setTimeout(updateScene, 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, data, excalidrawAPI]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSceneData();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [setSceneData]);
 
   useEffect(() => {
     // Load data from local storage if available
@@ -98,7 +112,6 @@ export default function Page({ id }: PageProps) {
         appState: { theme: theme },
       });
       setName(localData.name);
-      toast("Loaded data from local storage");
     }
   }, [id, excalidrawAPI, theme]);
 
@@ -118,18 +131,23 @@ export default function Page({ id }: PageProps) {
                   value={name}
                   className="w-40"
                 />
-                <Button variant="secondary" onClick={setSceneData}>
-                  Save
+                <Button
+                  variant="secondary"
+                  onClick={setSceneData}
+                  disabled={isSaving}
+                  size="sm"
+                >
+                  {isSaving ? "Saving..." : "Save"}
                 </Button>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
                         variant="secondary"
-                        size="icon"
+                        size="sm"
                         onClick={updateScene}
                       >
-                        <RefreshCcw className="h-5 w-5" />
+                        <RefreshCcw className="h-4 w-4" />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
