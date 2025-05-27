@@ -15,6 +15,8 @@ import NotFound from "./views/NotFound";
 
 const router = createRouter({ routeTree });
 
+import "@excalidraw/excalidraw/index.css";
+
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
