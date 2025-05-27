@@ -79,11 +79,17 @@ export default function Page({ id }: PageProps) {
         drawDataStore.getState().setPageData(id, scene, updatedAt, name);
 
         // Then push to API
-        await mutate({
-          elements: scene as NonDeletedExcalidrawElement[],
-          name,
-        });
-        setIsSaving(false);
+        mutate(
+          {
+            elements: scene as NonDeletedExcalidrawElement[],
+            name,
+          },
+          {
+            onSettled() {
+              setIsSaving(false);
+            },
+          },
+        );
       }
     }
   }, [excalidrawAPI, id, name, mutate]);
@@ -98,7 +104,7 @@ export default function Page({ id }: PageProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setSceneData();
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [setSceneData]);
@@ -129,7 +135,8 @@ export default function Page({ id }: PageProps) {
                 <Input
                   onChange={(e) => setName(e.target.value)}
                   value={name}
-                  className="w-40"
+                  className="h-9 w-40"
+                  placeholder="Page Title"
                 />
                 <Button
                   variant="secondary"
