@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+  "generate:routes": "router-plugin generate"
   },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.18.0",
@@ -39,7 +40,7 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@tanstack/eslint-plugin-query": "^5.62.1",
-    "@tanstack/router-plugin": "^1.86.0",
+    "@tanstack/router-plugin": "^1.125.6",
     "@types/bun": "^1.1.14",
     "@types/node": "^22.10.1",
     "@types/react": "^18.3.14",
