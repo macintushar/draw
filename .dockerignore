@@ -1,0 +1,2 @@
+# Ignore generated router tree (so it doesn't trigger rebuilds)
+src/routeTree.gen.ts
