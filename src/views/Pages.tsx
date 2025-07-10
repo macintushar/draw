@@ -109,7 +109,7 @@ export default function Pages() {
   }
 
   return (
-    <div className="mx-2 my-3 h-full w-full">
+    <div className="mx-2 my-3 flex flex-col">
       <TitleBar
         title="PAGES"
         extra={
@@ -120,6 +120,35 @@ export default function Pages() {
         }
       />
       <div className="flex flex-wrap gap-3 py-1">
+        {data?.data && data.data.length > 0 ? (
+          data?.data?.map((page) => (
+            <Card
+              key={page.page_id}
+              className="group h-fit max-h-28 w-fit max-w-72 cursor-pointer p-1 px-2 pt-2"
+            >
+              <div onClick={() => goToPage(page.page_id)}>
+                <CardContent className="flex w-full flex-col justify-end gap-3 py-2 text-sm">
+                  <CardTitle className="line-clamp-1 font-virgil">
+                    {page.name}
+                  </CardTitle>
+                  <h1 className="font-medium">
+                    Last updated on:{" "}
+                    {dayjs(page.updated_at).format("MMM DD, YYYY")}
+                  </h1>
+                </CardContent>
+              </div>
+              <div className="flex w-full items-end justify-end p-0.5">
+                <Trash2
+                  className="invisible h-4 w-4 cursor-pointer rounded-lg text-gray-600 transition-all hover:bg-gray-100 hover:text-red-500 group-hover:visible hover:dark:bg-gray-900"
+                  strokeWidth={3}
+                  onClick={() => handlePageDelete(page.page_id)}
+                />
+              </div>
+            </Card>
+          ))
+        ) : (
+          <NoData name="Pages" />
+        )}
         {data?.data && data.data.length > 0 ? (
           data?.data?.map((page) => (
             <Card
