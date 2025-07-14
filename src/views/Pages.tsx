@@ -109,7 +109,7 @@ export default function Pages() {
   }
 
   return (
-    <div className="mx-2 my-3 h-full w-full">
+    <div className="mx-2 my-3 flex flex-col">
       <TitleBar
         title="PAGES"
         extra={
