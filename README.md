@@ -108,3 +108,11 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 ## Contact
 
 If you have any questions or suggestions, feel free to reach out!
+
+## Contributors
+
+A big thank you to all the contributors who have helped make Draw better!
+
+<a href="https://github.com/macintushar/draw/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=macintushar/draw" />
+</a>
