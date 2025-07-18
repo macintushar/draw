@@ -20,7 +20,7 @@ export const DB_NAME = "draw";
 export async function getPages(user_id: string): Promise<DBResponse> {
   const { data, error } = await supabase
     .from(DB_NAME)
-    .select()
+    .select("page_id, name, created_at, updated_at")
     .order("updated_at", { ascending: false })
     .eq("user_id", user_id)
     .eq("is_deleted", false);
