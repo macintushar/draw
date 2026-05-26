@@ -55,8 +55,8 @@ export default function Profile() {
     const data = await updateUser(values.name, values.email);
 
     if (
-      data.data.user?.email === values.email &&
-      data.data.user?.user_metadata.name === values.name
+      data.data?.user?.email === values.email &&
+      data.data?.user?.user_metadata.name === values.name
     ) {
       setIsSaving(false);
       queryClient.invalidateQueries({ queryKey: ["profile"] });

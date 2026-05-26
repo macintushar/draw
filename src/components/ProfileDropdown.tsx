@@ -59,7 +59,7 @@ export default function ProfileDropdown() {
   const message =
     timeMessage() +
     ", " +
-    profileData?.data.session?.user.user_metadata.name +
+    (profileData?.data?.session?.user.user_metadata.name || "User") +
     "!";
 
   return (

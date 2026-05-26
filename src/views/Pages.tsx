@@ -53,11 +53,11 @@ export default function Pages() {
     queryFn: async () => {
       const user_session = await getLocalUser();
       if (!user_session.error) {
-        if (!user_session.data.session) {
+        if (!user_session.data?.session) {
           toast.error("Something went wrong!");
           return { data: null, error: null };
         }
-        return getPages(user_session?.data.session.user?.id ?? "");
+        return getPages(user_session?.data?.session?.user?.id ?? "");
       }
       return null;
     },

@@ -44,7 +44,7 @@ export default function SignUp() {
     setIsLoading(true);
     const data = await signUp(values.name, values.email, values.password);
 
-    if (data.data.session) {
+    if (data.data?.session) {
       setIsLoading(false);
       navigate({ to: "/pages" });
       toast("Signed Up!");

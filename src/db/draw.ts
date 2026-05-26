@@ -18,6 +18,9 @@ export type ExcalidrawData = {
 export const DB_NAME = "draw";
 
 export async function getPages(user_id: string): Promise<DBResponse> {
+  if (!supabase) {
+    return { data: null, error: { message: "Supabase not configured" } as any };
+  }
   const { data, error } = await supabase
     .from(DB_NAME)
     .select()
@@ -29,6 +32,9 @@ export async function getPages(user_id: string): Promise<DBResponse> {
 }
 
 export async function getDrawData(id: string): Promise<DBResponse> {
+  if (!supabase) {
+    return { data: null, error: { message: "Supabase not configured" } as any };
+  }
   const { data, error } = await supabase
     .from(DB_NAME)
     .select()
@@ -41,6 +47,9 @@ export async function createNewPage(
   elements?: readonly NonDeletedExcalidrawElement[],
   files?: BinaryFiles,
 ): Promise<DBResponse> {
+  if (!supabase) {
+    return { data: null, error: { message: "Supabase not configured" } as any };
+  }
   const { data: profile, error: profileError } = await supabase.auth.getUser();
   if (profile) {
     const excalidrawData: ExcalidrawData = { 
@@ -49,7 +58,7 @@ export async function createNewPage(
     };
     const { data, error } = await supabase
       .from(DB_NAME)
-      .insert({ user_id: profile.user?.id, page_elements: excalidrawData })
+      .insert([{ user_id: profile.user?.id, page_elements: excalidrawData }] as any)
       .select();
     return { data, error };
   }
@@ -62,25 +71,34 @@ export async function setDrawData(
   name: string,
   files?: BinaryFiles,
 ): Promise<DBResponse> {
+  if (!supabase) {
+    return { data: null, error: { message: "Supabase not configured" } as any };
+  }
   const updateTime = new Date().toISOString();
   const excalidrawData: ExcalidrawData = { 
     elements,
     files: files || {}
   };
-  const { data, error } = await supabase
-    .from(DB_NAME)
-    .update({ name: name, page_elements: excalidrawData, updated_at: updateTime })
-    .eq("page_id", id)
-    .select();
+    const updatePayload = { name: name, page_elements: excalidrawData, updated_at: updateTime };
+    const result = await (supabase
+      .from(DB_NAME)
+      .update(updatePayload as unknown as never)
+      .eq("page_id", id)
+      .select() as unknown as Promise<DBResponse>);
+    const { data, error } = result;
 
   return { data, error };
 }
 
 export async function deletePage(id: string): Promise<DBResponse> {
-  const { error } = await supabase
+  if (!supabase) {
+    return { data: null, error: { message: "Supabase not configured" } as any };
+  }
+  const result = await (supabase
     .from(DB_NAME)
-    .update({ is_deleted: true })
-    .eq("page_id", id);
+    .update({ is_deleted: true } as unknown as never)
+    .eq("page_id", id) as unknown as Promise<DBResponse>);
+  const { error } = result;
 
   return { data: null, error };
 }
