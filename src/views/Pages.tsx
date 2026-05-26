@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createNewPage, deletePage, getPages } from "../db/draw";
+import { createNewPage, deletePage, getPages, setDrawData } from "../db/draw";
 import { Card, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
@@ -13,9 +13,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Trash2 } from "lucide-react";
+import { Trash2, Check, X } from "lucide-react";
 import TitleBar from "@/components/TitleBar";
 import { getLocalUser } from "@/db/auth";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 function NewPageOptionDropdown({
   createPageFn,
@@ -43,6 +45,8 @@ function NewPageOptionDropdown({
 
 export default function Pages() {
   const navigate = useNavigate();
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState("");
 
   const {
     data,
@@ -108,6 +112,26 @@ export default function Pages() {
     }
   }
 
+  async function handleTitleSave(id: string, newName: string) {
+    if (newName.trim()) {
+      // Import setDrawData to save just the title
+      const data = await setDrawData(id, [], newName);
+      
+      if (data.error) {
+        toast("Error saving title", { description: data.error.message });
+      } else {
+        toast("Title updated!");
+        refetchPages();
+        setEditingId(null);
+      }
+    }
+  }
+
+  function startEditing(id: string, currentName: string) {
+    setEditingId(id);
+    setEditingName(currentName);
+  }
+
   return (
     <div className="h-full w-full">
       <TitleBar
@@ -124,21 +148,60 @@ export default function Pages() {
           data?.data?.map((page) => (
             <Card
               key={page.page_id}
-              className="group cursor-pointer transition-all hover:shadow-lg dark:hover:shadow-gray-900/50"
+              className="group transition-all hover:shadow-lg dark:hover:shadow-gray-900/50"
             >
               <div 
-                onClick={() => goToPage(page.page_id)}
+                onClick={() => !editingId && goToPage(page.page_id)}
                 className="flex flex-col gap-4 p-4"
               >
-                <CardTitle className="line-clamp-2 font-virgil text-base text-gray-900 dark:text-gray-50">
-                  {page.name}
-                </CardTitle>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Last updated on{" "}
-                  <span className="font-medium">
-                    {dayjs(page.updated_at).format("MMM DD, YYYY")}
-                  </span>
-                </p>
+                {editingId === page.page_id ? (
+                  <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                    <Input
+                      autoFocus
+                      value={editingName}
+                      onChange={(e) => setEditingName(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleTitleSave(page.page_id, editingName);
+                        } else if (e.key === 'Escape') {
+                          setEditingId(null);
+                        }
+                      }}
+                      className="h-8 flex-1 text-sm"
+                    />
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 w-8 p-0"
+                      onClick={() => handleTitleSave(page.page_id, editingName)}
+                    >
+                      <Check className="h-4 w-4 text-green-600" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 w-8 p-0"
+                      onClick={() => setEditingId(null)}
+                    >
+                      <X className="h-4 w-4 text-red-600" />
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <CardTitle 
+                      onClick={() => startEditing(page.page_id, page.name)}
+                      className="line-clamp-2 cursor-pointer font-virgil text-base text-gray-900 transition-colors hover:text-gray-700 dark:text-gray-50 dark:hover:text-gray-300"
+                    >
+                      {page.name}
+                    </CardTitle>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Last updated on{" "}
+                      <span className="font-medium">
+                        {dayjs(page.updated_at).format("MMM DD, YYYY")}
+                      </span>
+                    </p>
+                  </>
+                )}
               </div>
               <div className="border-t border-gray-200 px-4 py-2 dark:border-gray-800">
                 <Trash2

@@ -14,19 +14,22 @@ import { Excalidraw, WelcomeScreen } from "@excalidraw/excalidraw";
 import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/element/types";
 import { ExcalidrawImperativeAPI, BinaryFiles } from "@excalidraw/excalidraw/types";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { RefreshCcw } from "lucide-react";
+import { RefreshCcw, ArrowLeft } from "lucide-react";
 import { getDrawData, setDrawData } from "@/db/draw";
 import { drawDataStore } from "@/stores/drawDataStore";
+import { useNavigate } from "@tanstack/react-router";
 
 type PageProps = {
   id: string;
 };
 
 export default function Page({ id }: PageProps) {
+  const navigate = useNavigate();
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
   const [name, setName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [lastSavedName, setLastSavedName] = useState("");
   const { theme } = useTheme();
 
   const { data, isLoading } = useQuery({
@@ -53,6 +56,34 @@ export default function Page({ id }: PageProps) {
 
   const { mutate } = mutation;
 
+  // Save title only (independent of drawing changes)
+  const saveTitleOnly = useCallback(async () => {
+    if (name !== lastSavedName && excalidrawAPI) {
+      setIsSaving(true);
+      const scene = excalidrawAPI.getSceneElements();
+      const files = excalidrawAPI.getFiles();
+      
+      mutate(
+        {
+          elements: scene as NonDeletedExcalidrawElement[],
+          name,
+          files,
+        },
+        {
+          onSuccess: () => {
+            setLastSavedName(name);
+            setIsSaving(false);
+            toast("Title saved!");
+          },
+          onError: (error: Error) => {
+            setIsSaving(false);
+            toast("Error saving title", { description: error.message });
+          },
+        },
+      );
+    }
+  }, [name, lastSavedName, excalidrawAPI, mutate]);
+
   async function updateScene() {
     if (data?.data && excalidrawAPI) {
       const pageData = data.data[0].page_elements;
@@ -70,6 +101,7 @@ export default function Page({ id }: PageProps) {
       }
       
       setName(data.data[0].name);
+      setLastSavedName(data.data[0].name);
     }
     if (data?.error) {
       toast("An error occurred", { description: data.error.message });
@@ -151,8 +183,23 @@ export default function Page({ id }: PageProps) {
             initialData={{ appState: { theme: theme } }}
             renderTopRightUI={() => (
               <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate({ to: "/pages" })}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back
+                </Button>
                 <Input
                   onChange={(e) => setName(e.target.value)}
+                  onBlur={saveTitleOnly}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      saveTitleOnly();
+                    }
+                  }}
                   value={name}
                   className="h-9 w-40"
                   placeholder="Page Title"
