@@ -62,12 +62,12 @@ export default function SignUp() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Sign Up</CardTitle>
+              <CardTitle>Sign Up</CardTitle>
               <CardDescription>
                 Enter your information to create an account.
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-4">
+            <CardContent className="grid gap-6">
               <FormField
                 control={form.control}
                 name="name"
@@ -133,9 +133,9 @@ export default function SignUp() {
               >
                 Sign Up
               </Button>
-              <div className="flex space-x-2">
-                <h1>Already have an account?</h1>
-                <Link className="font-bold underline" to="/login">
+              <div className="flex items-center justify-center gap-1 text-sm">
+                <span className="text-gray-600 dark:text-gray-400">Already have an account?</span>
+                <Link className="font-semibold text-gray-900 hover:underline dark:text-gray-50" to="/login">
                   Login
                 </Link>
               </div>

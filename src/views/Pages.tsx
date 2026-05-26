@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createNewPage, deletePage, getPages } from "../db/draw";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
 import NoData from "./NoData";
@@ -109,7 +109,7 @@ export default function Pages() {
   }
 
   return (
-    <div className="mx-2 my-3 h-full w-full">
+    <div className="h-full w-full">
       <TitleBar
         title="PAGES"
         extra={
@@ -119,28 +119,31 @@ export default function Pages() {
           />
         }
       />
-      <div className="flex flex-wrap gap-3 py-1">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {data?.data && data.data.length > 0 ? (
           data?.data?.map((page) => (
             <Card
               key={page.page_id}
-              className="group h-fit max-h-28 w-fit max-w-72 cursor-pointer p-1 px-2 pt-2"
+              className="group cursor-pointer transition-all hover:shadow-lg dark:hover:shadow-gray-900/50"
             >
-              <div onClick={() => goToPage(page.page_id)}>
-                <CardContent className="flex w-full flex-col justify-end gap-3 py-2 text-sm">
-                  <CardTitle className="line-clamp-1 font-virgil">
-                    {page.name}
-                  </CardTitle>
-                  <h1 className="font-medium">
-                    Last updated on:{" "}
+              <div 
+                onClick={() => goToPage(page.page_id)}
+                className="flex flex-col gap-4 p-4"
+              >
+                <CardTitle className="line-clamp-2 font-virgil text-base text-gray-900 dark:text-gray-50">
+                  {page.name}
+                </CardTitle>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Last updated on{" "}
+                  <span className="font-medium">
                     {dayjs(page.updated_at).format("MMM DD, YYYY")}
-                  </h1>
-                </CardContent>
+                  </span>
+                </p>
               </div>
-              <div className="flex w-full items-end justify-end p-0.5">
+              <div className="border-t border-gray-200 px-4 py-2 dark:border-gray-800">
                 <Trash2
-                  className="invisible h-4 w-4 cursor-pointer rounded-lg text-gray-600 transition-all hover:bg-gray-100 hover:text-red-500 group-hover:visible hover:dark:bg-gray-900"
-                  strokeWidth={3}
+                  className="invisible h-4 w-4 cursor-pointer text-gray-400 transition-all group-hover:visible hover:text-red-500"
+                  strokeWidth={2}
                   onClick={() => handlePageDelete(page.page_id)}
                 />
               </div>

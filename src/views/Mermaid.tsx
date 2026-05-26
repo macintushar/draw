@@ -86,7 +86,7 @@ export default function Mermaid() {
   }, [excalidrawAPI]);
 
   return (
-    <div className="flex h-full w-full flex-col p-3">
+    <div className="flex h-full w-full flex-col">
       <TitleBar
         title="MERMAID"
         ctaLabel="Save As New Page"
@@ -97,9 +97,9 @@ export default function Mermaid() {
           <Tooltip>
             <TooltipTrigger>
               <a href="https://mermaid.js.org/" target="_blank">
-                <div className="flex flex-row items-center gap-2 p-1 text-sm">
+                <div className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
                   Learn more
-                  <ExternalLink className="mr-1 h-4 w-4" />
+                  <ExternalLink className="h-4 w-4" />
                 </div>
               </a>
             </TooltipTrigger>
@@ -109,14 +109,15 @@ export default function Mermaid() {
           </Tooltip>
         }
       />
-      <div className="flex h-full w-full flex-row gap-3">
-        <div className="flex h-full w-full flex-col gap-1 rounded-xl border-2 border-white p-1 sm:w-1/3">
+      <div className="flex h-full w-full flex-col gap-4 sm:flex-row">
+        <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:w-1/3">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Mermaid Syntax</label>
           <Textarea
             onChange={(e) => setMermaidSyntax(e.target.value)}
-            className="h-full resize-none"
+            placeholder="Enter your Mermaid syntax here..."
+            className="h-64 flex-1 resize-none"
           />
           <Button
-            size="lg"
             className="w-full"
             onClick={generateExcalidraw}
             isLoading={converting}
@@ -126,7 +127,7 @@ export default function Mermaid() {
             Convert to Excalidraw
           </Button>
         </div>
-        <div className="h-full w-full rounded-xl border-2 border-white sm:w-2/3">
+        <div className="h-full flex-1 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 sm:w-2/3">
           <Excalidraw
             excalidrawAPI={(api) => setExcalidrawAPI(api)}
             theme={theme === "dark" ? "dark" : "light"}

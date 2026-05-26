@@ -19,50 +19,46 @@ export default function HomePage() {
     }
   }
   return (
-    <main className="flex h-full w-full flex-col bg-gradient-to-r from-gray-900 via-gray-950 to-gray-900 p-2 font-virgil">
-      <footer>
-        <div className="flex h-16 w-full items-center justify-center">
-          <div className="flex flex-row items-center justify-center align-middle">
-            <h1 className="text-2xl text-white">
-              ⭐ Star us on{" "}
-              <a href={GITHUB_REPO_URL} className="font-semibold underline">
-                GitHub
-              </a>
-            </h1>
-          </div>
+    <main className="flex h-full w-full flex-col bg-white dark:bg-gray-950 font-virgil">
+      <header className="flex h-16 items-center justify-center border-b border-gray-200 dark:border-gray-800">
+        <div className="flex items-center gap-2">
+          <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+            ⭐ Star us on{" "}
+          </h1>
+          <a href={GITHUB_REPO_URL} className="font-semibold text-gray-900 hover:underline dark:text-gray-50">
+            GitHub
+          </a>
         </div>
-      </footer>
-      <div className="flex h-full w-full items-center justify-center">
-        <div className="flex h-fit w-full flex-col items-center gap-y-8 sm:w-1/2">
-          <h1 className="text-6xl font-black">Draw</h1>
-          <h1 className="text-center text-5xl font-medium">
+      </header>
+      <div className="flex h-full w-full flex-col items-center justify-center px-4">
+        <div className="flex flex-col items-center gap-8 max-w-2xl">
+          <h1 className="text-5xl font-black text-gray-900 dark:text-gray-50 sm:text-6xl">
+            Draw
+          </h1>
+          <p className="text-center text-xl font-medium leading-relaxed text-gray-700 dark:text-gray-300 sm:text-2xl">
             The digital drawing tool that enables you to create, edit, and share
             your drawings across all your devices.
-          </h1>
+          </p>
           <Button
             isLoading={isLoading}
             loadingText=""
-            className="w-2/3 text-lg font-semibold"
+            className="w-full sm:w-fit px-8 text-base font-semibold"
             onClick={() => action(data ? true : false)}
           >
             {data ? "View your pages" : "Sign In"}
           </Button>
         </div>
       </div>
-      <footer>
-        <div className="flex h-16 w-full items-center justify-center">
-          <div className="flex flex-row items-center justify-center align-middle">
-            <h1 className="text-lg text-white">
-              Made by{" "}
-              <a
-                href="https://github.com/macintushar"
-                className="font-semibold underline"
-              >
-                Macintushar
-              </a>
-            </h1>
-          </div>
-        </div>
+      <footer className="flex h-16 items-center justify-center border-t border-gray-200 dark:border-gray-800">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Made by{" "}
+          <a
+            href="https://github.com/macintushar"
+            className="font-semibold text-gray-900 hover:underline dark:text-gray-50"
+          >
+            Macintushar
+          </a>
+        </p>
       </footer>
     </main>
   );

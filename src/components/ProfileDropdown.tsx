@@ -73,8 +73,8 @@ export default function ProfileDropdown() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{message}</DropdownMenuLabel>
+      <DropdownMenuContent className="w-56" align="end">
+        <DropdownMenuLabel className="text-sm text-gray-900 dark:text-gray-50">{message}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link to="/profile">

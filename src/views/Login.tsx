@@ -59,12 +59,12 @@ export default function Login() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Login</CardTitle>
+              <CardTitle>Login</CardTitle>
               <CardDescription>
                 Enter your email below to login to your account.
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-4">
+            <CardContent className="grid gap-6">
               <FormField
                 control={form.control}
                 name="email"
@@ -111,9 +111,9 @@ export default function Login() {
               >
                 Login
               </Button>
-              <div className="flex space-x-2">
-                <h1>Don't have an account?</h1>
-                <Link className="font-bold underline" to="/signup">
+              <div className="flex items-center justify-center gap-1 text-sm">
+                <span className="text-gray-600 dark:text-gray-400">Don&apos;t have an account?</span>
+                <Link className="font-semibold text-gray-900 hover:underline dark:text-gray-50" to="/signup">
                   Sign up
                 </Link>
               </div>

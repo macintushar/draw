@@ -73,19 +73,19 @@ export default function Profile() {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="mx-2 my-3 h-full w-full">
+    <div className="h-full w-full">
       <TitleBar title="PROFILE" />
       <div className="flex w-full items-center justify-center">
-        <Card className="w-full lg:w-2/3">
+        <Card className="w-full max-w-md">
           <Form {...form}>
             <form
-              className="flex flex-col gap-4"
+              className="flex flex-col"
               onSubmit={form.handleSubmit(onSubmit)}
             >
               <CardHeader>
                 <CardTitle>Update your Profile</CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-4">
+              <CardContent className="grid gap-6">
                 <FormField
                   control={form.control}
                   name="name"
