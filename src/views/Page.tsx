@@ -136,6 +136,7 @@ export default function Page({ id }: PageProps) {
         excalidrawAPI.addFiles(Object.values(localData.files));
       }
       
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing persisted store data into local state when the page id changes
       setName(localData.name);
     }
   }, [id, excalidrawAPI, theme]);
