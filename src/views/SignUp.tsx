@@ -30,6 +30,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 import { signUp } from "@/db/auth";
+import OAuthButtons from "@/components/OAuthButtons";
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -48,6 +49,14 @@ export default function SignUp() {
       setIsLoading(false);
       navigate({ to: "/pages" });
       toast("Signed Up!");
+      return;
+    }
+
+    if (data.data.user) {
+      setIsLoading(false);
+      toast("Check your inbox to verify your email!");
+      navigate({ to: "/verify-email", search: { email: values.email } });
+      return;
     }
 
     if (data.error) {
@@ -133,6 +142,7 @@ export default function SignUp() {
               >
                 Sign Up
               </Button>
+              <OAuthButtons />
               <div className="flex space-x-2">
                 <h1>Already have an account?</h1>
                 <Link className="font-bold underline" to="/login">

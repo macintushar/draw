@@ -1,48 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
-import { createNewPage, deletePage, getPages } from "../db/draw";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
-import Loader from "@/components/Loader";
-import NoData from "./NoData";
-import { Button } from "@/components/ui/button";
-import dayjs from "dayjs";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Trash2 } from "lucide-react";
-import TitleBar from "@/components/TitleBar";
-import { getLocalUser } from "@/db/auth";
+import { toast } from "sonner";
+import { LayoutGrid, Pencil, Trash2 } from "lucide-react";
 
-function NewPageOptionDropdown({
-  createPageFn,
-  createMermaidPageFn,
-}: {
-  createPageFn: () => void;
-  createMermaidPageFn: () => void;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="font-semibold">
-          + New Page
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={createPageFn}>Plain Page</DropdownMenuItem>
-        <DropdownMenuItem onClick={createMermaidPageFn}>
-          Mermaid Syntax Diagram
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
+import { createNewPage, deletePage, getPages } from "../db/draw";
+import { getLocalUser } from "@/db/auth";
+import { Button } from "@/components/ui/button";
+import Loader from "@/components/Loader";
+import PagePreview from "@/components/PagePreview";
+import NoData from "./NoData";
+import { fullRelativeTime } from "@/lib/utils";
 
 export default function Pages() {
   const navigate = useNavigate();
+
+  const { data: profileData } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getLocalUser,
+  });
+
+  const user = profileData?.data.session?.user;
+  const authorName =
+    (user?.user_metadata?.name as string) ||
+    user?.email?.split("@")[0] ||
+    "you";
 
   const {
     data,
@@ -75,23 +56,15 @@ export default function Pages() {
     navigate({ to: "/page/$id", params: { id: id } });
   }
 
-  async function createPage() {
-    const data = await createNewPage();
-
-    if (data.data && data.data[0]?.page_id) {
-      goToPage(data.data[0].page_id);
-      toast("Successfully created a new page!");
+  async function startDrawing() {
+    const res = await createNewPage();
+    if (res.data && res.data[0]?.page_id) {
+      goToPage(res.data[0].page_id);
+      return;
     }
-
-    if (data.error) {
-      toast("An error occured", {
-        description: `Error: ${data.error.message}`,
-      });
+    if (res.error) {
+      toast("An error occured", { description: `Error: ${res.error.message}` });
     }
-  }
-
-  async function createMermaidPage() {
-    navigate({ to: "/mermaid" });
   }
 
   async function handlePageDelete(id: string) {
@@ -108,48 +81,66 @@ export default function Pages() {
     }
   }
 
+  const pages = data?.data ?? [];
+
   return (
-    <div className="mx-2 my-3 h-full w-full">
-      <TitleBar
-        title="PAGES"
-        extra={
-          <NewPageOptionDropdown
-            createPageFn={createPage}
-            createMermaidPageFn={createMermaidPage}
-          />
-        }
-      />
-      <div className="flex flex-wrap gap-3 py-1">
-        {data?.data && data.data.length > 0 ? (
-          data?.data?.map((page) => (
-            <Card
-              key={page.page_id}
-              className="group h-fit max-h-28 w-fit max-w-72 cursor-pointer p-1 px-2 pt-2"
-            >
-              <div onClick={() => goToPage(page.page_id)}>
-                <CardContent className="flex w-full flex-col justify-end gap-3 py-2 text-sm">
-                  <CardTitle className="line-clamp-1 font-virgil">
-                    {page.name}
-                  </CardTitle>
-                  <h1 className="font-medium">
-                    Last updated on:{" "}
-                    {dayjs(page.updated_at).format("MMM DD, YYYY")}
-                  </h1>
-                </CardContent>
-              </div>
-              <div className="flex w-full items-end justify-end p-0.5">
+    <div className="mx-auto h-full w-full max-w-5xl px-4 py-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <LayoutGrid className="h-6 w-6" strokeWidth={2.5} />
+          <h1 className="font-accent text-2xl font-bold">Pages</h1>
+        </div>
+        <Button className="gap-1.5 font-semibold" onClick={startDrawing}>
+          <Pencil className="h-4 w-4" />
+          Start drawing
+        </Button>
+      </div>
+
+      <hr className="my-4 border-zinc-200 dark:border-zinc-800" />
+
+      <h2 className="mb-4 font-accent text-lg font-bold text-violet-500 dark:text-violet-400">
+        Recently modified by you
+      </h2>
+
+      {pages.length > 0 ? (
+        <div className="flex flex-wrap gap-5">
+          {pages.map((page) => (
+            <div key={page.page_id} className="group flex w-56 flex-col gap-2">
+              <button
+                type="button"
+                onClick={() => goToPage(page.page_id)}
+                className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100 transition-shadow hover:shadow-md dark:border-zinc-700"
+              >
+                <PagePreview
+                  elements={page.page_elements?.elements}
+                  files={page.page_elements?.files}
+                />
+                <span className="absolute right-2 bottom-2 rounded bg-black/60 px-2 py-0.5 text-xs font-medium text-white">
+                  {fullRelativeTime(page.updated_at)}
+                </span>
+              </button>
+
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <h3 className="truncate font-accent font-semibold">
+                    {page.name || "Untitled"}
+                  </h3>
+                  <p className="truncate text-xs text-muted-foreground">
+                    by {authorName}
+                  </p>
+                </div>
                 <Trash2
-                  className="invisible h-4 w-4 cursor-pointer rounded-lg text-gray-600 transition-all hover:bg-gray-100 hover:text-red-500 group-hover:visible hover:dark:bg-gray-900"
-                  strokeWidth={3}
+                  className="mt-0.5 h-4 w-4 flex-shrink-0 cursor-pointer text-gray-400 opacity-0 transition-all hover:text-red-500 group-hover:opacity-100"
+                  strokeWidth={2.5}
                   onClick={() => handlePageDelete(page.page_id)}
                 />
               </div>
-            </Card>
-          ))
-        ) : (
-          <NoData name="Pages" />
-        )}
-      </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <NoData name="Pages" />
+      )}
     </div>
   );
 }

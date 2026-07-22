@@ -12,9 +12,12 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Excalidraw, WelcomeScreen } from "@excalidraw/excalidraw";
 import { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/element/types";
-import { ExcalidrawImperativeAPI, BinaryFiles } from "@excalidraw/excalidraw/types";
+import {
+  ExcalidrawImperativeAPI,
+  BinaryFiles,
+} from "@excalidraw/excalidraw/types";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { RefreshCcw } from "lucide-react";
+import { RefreshCcw, Save } from "lucide-react";
 import { getDrawData, setDrawData } from "@/db/draw";
 import { drawDataStore } from "@/stores/drawDataStore";
 
@@ -58,17 +61,17 @@ export default function Page({ id }: PageProps) {
       const pageData = data.data[0].page_elements;
       const elements = pageData.elements || [];
       const files = pageData.files || {};
-      
+
       excalidrawAPI.updateScene({
         elements: elements,
         appState: { theme: theme },
       });
-      
+
       // Update files if they exist
       if (Object.keys(files).length > 0) {
         excalidrawAPI.addFiles(Object.values(files));
       }
-      
+
       setName(data.data[0].name);
     }
     if (data?.error) {
@@ -84,8 +87,10 @@ export default function Page({ id }: PageProps) {
 
       const existingData = drawDataStore.getState().getPageData(id);
 
-      if (JSON.stringify(existingData?.elements) !== JSON.stringify(scene) ||
-          JSON.stringify(existingData?.files) !== JSON.stringify(files)) {
+      if (
+        JSON.stringify(existingData?.elements) !== JSON.stringify(scene) ||
+        JSON.stringify(existingData?.files) !== JSON.stringify(files)
+      ) {
         setIsSaving(true);
         // Save locally first
         drawDataStore.getState().setPageData(id, scene, updatedAt, name, files);
@@ -130,70 +135,82 @@ export default function Page({ id }: PageProps) {
         elements: localData.elements,
         appState: { theme: theme },
       });
-      
+
       // Load files if they exist
       if (localData.files && Object.keys(localData.files).length > 0) {
         excalidrawAPI.addFiles(Object.values(localData.files));
       }
-      
+
       // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing persisted store data into local state when the page id changes
       setName(localData.name);
     }
   }, [id, excalidrawAPI, theme]);
 
   return (
-    <div className="flex w-full flex-col">
-      <div className="h-full w-full">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <Excalidraw
-            excalidrawAPI={(api) => setExcalidrawAPI(api)}
-            initialData={{ appState: { theme: theme } }}
-            renderTopRightUI={() => (
-              <div className="flex gap-2">
-                <Input
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                  className="h-9 w-40"
-                  placeholder="Page Title"
-                />
-                <Button
-                  variant="secondary"
-                  onClick={setSceneData}
-                  disabled={isSaving}
-                  size="sm"
-                >
+    <div className="flex h-full w-full flex-col">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 bg-white p-2 dark:border-zinc-800 dark:bg-zinc-900">
+            <Input
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              className="h-9 w-full min-w-0 flex-1 sm:max-w-xs md:max-w-sm lg:max-w-md"
+              placeholder="Page Title"
+              aria-label="Page title"
+            />
+            <div className="flex flex-shrink-0 items-center gap-2">
+              <Button
+                variant="secondary"
+                onClick={setSceneData}
+                disabled={isSaving}
+                size="sm"
+                className="gap-1.5"
+              >
+                <Save className="h-4 w-4" />
+                <span className="hidden sm:inline">
                   {isSaving ? "Saving..." : "Save"}
-                </Button>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={updateScene}
-                      >
-                        <RefreshCcw className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>
-                        Refreshes the page. This removes any unsaved changes.
-                        Use with caution.
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            )}
-            theme={theme === "dark" ? "dark" : "light"}
-            autoFocus
-          >
-            <WelcomeScreen />
-          </Excalidraw>
-        )}
-      </div>
+                </span>
+                <span className="sr-only sm:hidden">
+                  {isSaving ? "Saving" : "Save"}
+                </span>
+              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={updateScene}
+                      className="gap-1.5"
+                    >
+                      <RefreshCcw className="h-4 w-4" />
+                      Reload
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>
+                      Refreshes the page. This removes any unsaved changes. Use
+                      with caution.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </header>
+          <div className="min-h-0 flex-1">
+            <Excalidraw
+              excalidrawAPI={(api) => setExcalidrawAPI(api)}
+              initialData={{ appState: { theme: theme } }}
+              theme={theme === "dark" ? "dark" : "light"}
+              autoFocus
+            >
+              <WelcomeScreen />
+            </Excalidraw>
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -11,7 +11,6 @@ export default {
       },
       colors: {},
       fontFamily: {
-        virgil: ["Virgil", "sans-serif"],
         quicksand: ["Quicksand", "sans-serif"],
       },
     },

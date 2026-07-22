@@ -11,11 +11,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UpdatePasswordLazyRouteImport = createFileRoute('/update-password')()
 const SignupLazyRouteImport = createFileRoute('/signup')()
 const LoginLazyRouteImport = createFileRoute('/login')()
+const ForgotPasswordLazyRouteImport = createFileRoute('/forgot-password')()
 const AuthenticatedProfileLazyRouteImport = createFileRoute(
   '/_authenticated/profile',
 )()
@@ -29,6 +32,13 @@ const AuthenticatedPageIdLazyRouteImport = createFileRoute(
   '/_authenticated/page/$id',
 )()
 
+const UpdatePasswordLazyRoute = UpdatePasswordLazyRouteImport.update({
+  id: '/update-password',
+  path: '/update-password',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/update-password.lazy').then((d) => d.Route),
+)
 const SignupLazyRoute = SignupLazyRouteImport.update({
   id: '/signup',
   path: '/signup',
@@ -39,6 +49,18 @@ const LoginLazyRoute = LoginLazyRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
+const ForgotPasswordLazyRoute = ForgotPasswordLazyRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/forgot-password.lazy').then((d) => d.Route),
+)
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -81,8 +103,11 @@ const AuthenticatedPageIdLazyRoute = AuthenticatedPageIdLazyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/forgot-password': typeof ForgotPasswordLazyRoute
   '/login': typeof LoginLazyRoute
   '/signup': typeof SignupLazyRoute
+  '/update-password': typeof UpdatePasswordLazyRoute
   '/mermaid': typeof AuthenticatedMermaidLazyRoute
   '/pages': typeof AuthenticatedPagesLazyRoute
   '/profile': typeof AuthenticatedProfileLazyRoute
@@ -90,8 +115,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/forgot-password': typeof ForgotPasswordLazyRoute
   '/login': typeof LoginLazyRoute
   '/signup': typeof SignupLazyRoute
+  '/update-password': typeof UpdatePasswordLazyRoute
   '/mermaid': typeof AuthenticatedMermaidLazyRoute
   '/pages': typeof AuthenticatedPagesLazyRoute
   '/profile': typeof AuthenticatedProfileLazyRoute
@@ -101,8 +129,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/verify-email': typeof VerifyEmailRoute
+  '/forgot-password': typeof ForgotPasswordLazyRoute
   '/login': typeof LoginLazyRoute
   '/signup': typeof SignupLazyRoute
+  '/update-password': typeof UpdatePasswordLazyRoute
   '/_authenticated/mermaid': typeof AuthenticatedMermaidLazyRoute
   '/_authenticated/pages': typeof AuthenticatedPagesLazyRoute
   '/_authenticated/profile': typeof AuthenticatedProfileLazyRoute
@@ -112,8 +143,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/verify-email'
+    | '/forgot-password'
     | '/login'
     | '/signup'
+    | '/update-password'
     | '/mermaid'
     | '/pages'
     | '/profile'
@@ -121,8 +155,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/verify-email'
+    | '/forgot-password'
     | '/login'
     | '/signup'
+    | '/update-password'
     | '/mermaid'
     | '/pages'
     | '/profile'
@@ -131,8 +168,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/verify-email'
+    | '/forgot-password'
     | '/login'
     | '/signup'
+    | '/update-password'
     | '/_authenticated/mermaid'
     | '/_authenticated/pages'
     | '/_authenticated/profile'
@@ -142,12 +182,22 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  VerifyEmailRoute: typeof VerifyEmailRoute
+  ForgotPasswordLazyRoute: typeof ForgotPasswordLazyRoute
   LoginLazyRoute: typeof LoginLazyRoute
   SignupLazyRoute: typeof SignupLazyRoute
+  UpdatePasswordLazyRoute: typeof UpdatePasswordLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/update-password': {
+      id: '/update-password'
+      path: '/update-password'
+      fullPath: '/update-password'
+      preLoaderRoute: typeof UpdatePasswordLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signup': {
       id: '/signup'
       path: '/signup'
@@ -160,6 +210,20 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -228,8 +292,11 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  VerifyEmailRoute: VerifyEmailRoute,
+  ForgotPasswordLazyRoute: ForgotPasswordLazyRoute,
   LoginLazyRoute: LoginLazyRoute,
   SignupLazyRoute: SignupLazyRoute,
+  UpdatePasswordLazyRoute: UpdatePasswordLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

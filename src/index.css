@@ -6,11 +6,11 @@
 
 @layer base {
   @font-face {
-    font-family: "Virgil";
+    font-family: "Excalifont";
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(./assets/fonts/Virgil.woff2) format("woff2");
+    src: url(./assets/fonts/Excalifont.woff2) format("woff2");
   }
   html {
     font-family: "Quicksand", sans-serif;
@@ -18,4 +18,115 @@
   :root {
     --radius: 0.5rem;
   }
+}
+
+:root {
+  /* App palette: light gray-100 page background with white elevated cards.
+     Mirrors the colors hardcoded across the app (bg-gray-100, bg-white,
+     bg-gray-900, etc.) so components can use bg-background, bg-card, ... */
+  --background: hsl(220 14% 96%); /* gray-100 */
+  --foreground: hsl(0 0% 0%); /* black (text-black) */
+  --card: hsl(0 0% 100%); /* white (bg-white) */
+  --card-foreground: hsl(0 0% 0%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(0 0% 0%);
+  --primary: hsl(220 13% 9%); /* gray-900 (bg-gray-900) */
+  --primary-foreground: hsl(220 14% 98%); /* gray-50 (text-gray-50) */
+  --secondary: hsl(220 14% 96%); /* gray-100 (bg-gray-100) */
+  --secondary-foreground: hsl(220 13% 9%); /* gray-900 */
+  --muted: hsl(220 14% 96%); /* gray-100 */
+  --muted-foreground: hsl(220 9% 46%); /* gray-500 */
+  --accent: hsl(220 14% 96%); /* gray-100 */
+  --accent-foreground: hsl(220 13% 9%);
+  --destructive: hsl(0 84% 60%); /* red-500 (bg-red-500) */
+  --destructive-foreground: hsl(220 14% 98%);
+  --border: hsl(220 13% 91%); /* gray-200 */
+  --input: hsl(220 13% 91%); /* gray-200 */
+  --ring: hsl(220 13% 9%); /* gray-900 */
+
+  /* The sidebar is transparent so it blends into the page background;
+     the main content panel is the lighter, elevated surface. */
+  --sidebar: transparent;
+  --sidebar-foreground: hsl(0 0% 0%);
+  --sidebar-primary: hsl(220 13% 9%);
+  --sidebar-primary-foreground: hsl(220 14% 98%);
+  --sidebar-accent: hsl(220 13% 91%); /* gray-200 hover */
+  --sidebar-accent-foreground: hsl(220 13% 9%);
+  --sidebar-border: hsl(220 13% 91%); /* gray-200 */
+  --sidebar-ring: hsl(220 9% 46%); /* gray-500 */
+}
+
+.dark {
+  --background: hsl(240 10% 4%); /* zinc-950 */
+  --foreground: hsl(0 0% 98%); /* zinc-50 */
+  --card: hsl(240 6% 10%); /* zinc-900 (bg-zinc-900) */
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(240 6% 10%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(0 0% 98%); /* zinc-50 (dark bg-gray-50) */
+  --primary-foreground: hsl(240 6% 10%); /* zinc-900 */
+  --secondary: hsl(240 4% 16%); /* zinc-800 (bg-gray-800) */
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(240 4% 16%); /* zinc-800 */
+  --muted-foreground: hsl(240 5% 65%); /* zinc-400 */
+  --accent: hsl(240 4% 16%); /* zinc-800 */
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 63% 31%); /* red-900 (bg-red-900) */
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(240 4% 16%); /* zinc-800 */
+  --input: hsl(240 4% 16%);
+  --ring: hsl(240 5% 84%); /* zinc-300 */
+
+  --sidebar: transparent;
+  --sidebar-foreground: hsl(0 0% 98%); /* zinc-50 */
+  --sidebar-primary: hsl(0 0% 98%); /* zinc-50 */
+  --sidebar-primary-foreground: hsl(240 6% 10%); /* zinc-900 */
+  --sidebar-accent: hsl(240 4% 16%); /* zinc-800 hover */
+  --sidebar-accent-foreground: hsl(0 0% 98%);
+  --sidebar-border: hsl(240 5% 26%); /* zinc-700 */
+  --sidebar-ring: hsl(240 5% 34%);
+}
+
+/* The vendored shadcn sidebar targets Tailwind v3, where the collapse
+   variant `group-data-[collapsible=offcanvas]:w-0` reliably beat the base
+   `w-(--sidebar-width)`. Under Tailwind v4's utility ordering the base width
+   wins instead, so the offcanvas geometry is forced here. `data-collapsible`
+   is only set to "offcanvas" while the sidebar is collapsed. */
+[data-collapsible="offcanvas"] > div:first-child {
+  width: 0 !important;
+}
+[data-collapsible="offcanvas"] > div:last-child {
+  left: calc(var(--sidebar-width) * -1) !important;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-accent: "Excalifont", sans-serif;
 }

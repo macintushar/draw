@@ -3,6 +3,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import * as Sentry from "@sentry/react";
 
+import { env } from "./env";
+
 import "./index.css";
 
 export const queryClient = new QueryClient();
@@ -24,7 +26,7 @@ declare module "@tanstack/react-router" {
 }
 
 Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
+  dsn: env.VITE_SENTRY_DSN,
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
