@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import type { Provider, UserIdentity } from "@supabase/supabase-js";
 
 export async function login(email: string, password: string) {
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -16,6 +17,18 @@ export async function signUp(name: string, email: string, password: string) {
       data: {
         name: name,
       },
+      emailRedirectTo: `${window.location.origin}/pages`,
+    },
+  });
+  return { data, error };
+}
+
+export async function resendVerificationEmail(email: string) {
+  const { data, error } = await supabase.auth.resend({
+    type: "signup",
+    email: email,
+    options: {
+      emailRedirectTo: `${window.location.origin}/pages`,
     },
   });
   return { data, error };
@@ -46,5 +59,49 @@ export async function updateUser(name: string, email: string) {
       name: name,
     },
   });
+  return { data, error };
+}
+
+export async function updatePassword(password: string) {
+  const { data, error } = await supabase.auth.updateUser({
+    password: password,
+  });
+  return { data, error };
+}
+
+export async function sendPasswordReset(email: string) {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/update-password`,
+  });
+  return { data, error };
+}
+
+export async function signInWithOAuth(provider: Provider) {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: provider,
+    options: {
+      redirectTo: `${window.location.origin}/pages`,
+    },
+  });
+  return { data, error };
+}
+
+export async function getUserIdentities() {
+  const { data, error } = await supabase.auth.getUserIdentities();
+  return { data, error };
+}
+
+export async function linkIdentity(provider: Provider) {
+  const { data, error } = await supabase.auth.linkIdentity({
+    provider: provider,
+    options: {
+      redirectTo: `${window.location.origin}/profile`,
+    },
+  });
+  return { data, error };
+}
+
+export async function unlinkIdentity(identity: UserIdentity) {
+  const { data, error } = await supabase.auth.unlinkIdentity(identity);
   return { data, error };
 }

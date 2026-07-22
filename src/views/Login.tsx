@@ -27,6 +27,7 @@ import { login } from "@/db/auth";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useState } from "react";
+import OAuthButtons from "@/components/OAuthButtons";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,6 +50,12 @@ export default function Login() {
 
     if (data.error) {
       setIsLoading(false);
+
+      if (data.error.message.toLowerCase().includes("email not confirmed")) {
+        navigate({ to: "/verify-email", search: { email: values.email } });
+        return;
+      }
+
       toast("Authentication Error", { description: data.error.message });
     }
   }
@@ -91,7 +98,15 @@ export default function Login() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="grid gap-2">
-                      <FormLabel>Password</FormLabel>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>Password</FormLabel>
+                        <Link
+                          to="/forgot-password"
+                          className="text-sm underline-offset-4 hover:underline"
+                        >
+                          Forgot password?
+                        </Link>
+                      </div>
                       <FormControl>
                         {/* <Input id="password" type="password" {...field} /> */}
                         <HiddenInput id="password" {...field} />
@@ -111,6 +126,7 @@ export default function Login() {
               >
                 Login
               </Button>
+              <OAuthButtons />
               <div className="flex space-x-2">
                 <h1>Don't have an account?</h1>
                 <Link className="font-bold underline" to="/signup">

@@ -19,7 +19,7 @@ export default function HomePage() {
     }
   }
   return (
-    <main className="flex h-full w-full flex-col bg-gradient-to-r from-gray-900 via-gray-950 to-gray-900 p-2 font-virgil">
+    <main className="flex h-full w-full flex-col bg-gradient-to-r from-gray-900 via-gray-950 to-gray-900 p-2 font-accent">
       <footer>
         <div className="flex h-16 w-full items-center justify-center">
           <div className="flex flex-row items-center justify-center align-middle">

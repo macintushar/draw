@@ -12,8 +12,11 @@ import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import { useTheme } from "@/components/theme-provider";
 import TitleBar from "@/components/TitleBar";
 import { useNavigate } from "@tanstack/react-router";
-import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ExternalLink } from "lucide-react";
 import { createNewPage } from "@/db/draw";
 

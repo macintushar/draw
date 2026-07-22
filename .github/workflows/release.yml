@@ -1,0 +1,109 @@
+name: Release
+
+on:
+  schedule:
+    # 14:00 UTC every Friday == 19:30 IST (UTC+5:30, no DST).
+    - cron: "0 14 * * 5"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Explicit version to release without the leading 'v' (e.g. 1.0.0). Leave blank to auto-increment the patch from the latest tag."
+        required: false
+        type: string
+
+# Needed to create tags and GitHub Releases.
+permissions:
+  contents: write
+
+# Never run two releases at once.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history + tags)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine next version and changelog
+        id: meta
+        env:
+          OVERRIDE: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          # Latest semver tag (highest version, not most recent by date).
+          PREV_TAG="$(git tag -l 'v*.*.*' --sort=-v:refname | head -n1)"
+
+          if [ -n "${OVERRIDE:-}" ]; then
+            NEXT_VERSION="${OVERRIDE#v}"
+          elif [ -z "$PREV_TAG" ]; then
+            # First ever release.
+            NEXT_VERSION="0.1.0"
+          else
+            BASE="${PREV_TAG#v}"
+            MAJOR="${BASE%%.*}"
+            REST="${BASE#*.}"
+            MINOR="${REST%%.*}"
+            PATCH="${REST##*.}"
+            NEXT_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
+          fi
+          NEXT_TAG="v${NEXT_VERSION}"
+
+          # Count commits since the last release. If nothing changed, skip
+          # (unless an explicit version override was supplied).
+          if [ -n "$PREV_TAG" ]; then
+            CHANGES="$(git rev-list "${PREV_TAG}..HEAD" --count)"
+          else
+            CHANGES="$(git rev-list HEAD --count)"
+          fi
+
+          if [ -n "$PREV_TAG" ] && [ "$CHANGES" -eq 0 ] && [ -z "${OVERRIDE:-}" ]; then
+            echo "No changes since ${PREV_TAG}; skipping release."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Don't clobber an existing tag/release.
+          if git rev-parse -q --verify "refs/tags/${NEXT_TAG}" >/dev/null; then
+            echo "Tag ${NEXT_TAG} already exists; skipping."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Changelog = the diff of commits since the previous release.
+          if [ -n "$PREV_TAG" ]; then
+            RANGE="${PREV_TAG}..HEAD"
+            HEADER="## Changes since ${PREV_TAG}"
+          else
+            RANGE="HEAD"
+            HEADER="## Changes"
+          fi
+
+          {
+            echo "$HEADER"
+            echo
+            git log --no-merges --pretty=format:'- %s (%h)' $RANGE
+            echo
+          } > changelog.md
+
+          echo "Releasing ${NEXT_TAG}"
+          cat changelog.md
+
+          echo "release=true" >> "$GITHUB_OUTPUT"
+          echo "tag=${NEXT_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        if: steps.meta.outputs.release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          # Creates this tag at the checked-out commit if it doesn't exist.
+          # GitHub automatically attaches the full source (zip + tar.gz).
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: ${{ steps.meta.outputs.tag }}
+          body_path: changelog.md
+          make_latest: "true"

@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 import ProfileItem from "@/components/ProfileItem";
 
-import { Github, LogOut, Moon, Sun, SunMoon, User } from "lucide-react";
+import { GitBranch, LogOut, Moon, Sun, SunMoon, User } from "lucide-react";
 
 import { timeMessage } from "@/lib/utils";
 
@@ -106,7 +106,7 @@ export default function ProfileDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <a href={GITHUB_REPO_URL} rel="noreferrer noopener" target="_blank">
-          <ProfileItem Icon={Github} text="GitHub" />
+          <ProfileItem Icon={GitBranch} text="GitHub" />
         </a>
         <DropdownMenuSeparator />
         <ProfileItem

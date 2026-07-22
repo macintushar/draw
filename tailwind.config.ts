@@ -1,5 +1,3 @@
-import * as animate from "tailwindcss-animate";
-
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -13,10 +11,9 @@ export default {
       },
       colors: {},
       fontFamily: {
-        virgil: ["Virgil", "sans-serif"],
         quicksand: ["Quicksand", "sans-serif"],
       },
     },
   },
-  plugins: [animate],
+  plugins: [],
 };
